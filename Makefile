@@ -1,0 +1,2 @@
+lint:
+	./bin/ameba src/
