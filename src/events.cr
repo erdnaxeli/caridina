@@ -1,6 +1,6 @@
 require "json"
 
-module Cardina
+module Caridina
   module Events
     struct Invite
       getter room_id : String

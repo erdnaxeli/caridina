@@ -1,4 +1,4 @@
-module Cardina
+module Caridina
   module Errors
     struct RateLimited
       getter retry_after_ms : Int32

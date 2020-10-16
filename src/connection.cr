@@ -4,7 +4,7 @@ require "json"
 require "./events"
 require "./errors"
 
-module Cardina
+module Caridina
   # Interface to represent a Matrix client.
   module Connection
     class ExecError < Exception
@@ -20,7 +20,7 @@ module Cardina
   class ConnectionImpl
     include Connection
 
-    Log = Cardina::Log.for(self)
+    Log = Caridina::Log.for(self)
 
     @syncing = false
     @tx_id = 0
