@@ -26,6 +26,29 @@ module Caridina
     @tx_id = 0
     getter user_id : String = ""
 
+    def self.login(hs_url : String, user_id : String, password : String) : String
+      data = {
+        type:       "m.login.password",
+        identifier: {
+          type: "m.id.user",
+          user: user_id,
+        },
+        password: password,
+      }
+      response = HTTP::Client.post(
+        "#{hs_url}/_matrix/client/r0/login",
+        headers: HTTP::Headers{"Content-Type" => "application/json"},
+        body: data.to_json,
+      )
+
+      if !response.success
+        raise Exception.new("Error with status_code #{response.status_code}")
+      end
+
+      data = Hash(String, String).from_json(response.body)
+      data["access_token"]
+    end
+
     def initialize(@hs_url : String, @access_token : String)
       @hs_url = @hs_url.gsub(%r{https?://}, "")
 
