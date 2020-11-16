@@ -3,6 +3,7 @@ require "json"
 
 require "./events"
 require "./errors"
+require "./responses"
 
 module Caridina
   # Interface to represent a Matrix client.
@@ -12,7 +13,7 @@ module Caridina
 
     abstract def edit_message(room_id : String, event_id : String, message : String, html : String? = nil) : Nil
     abstract def send_message(room_id : String, message : String, html : String? = nil) : String
-    abstract def get(route, **options) : JSON::Any
+    abstract def get(route, **options)
     abstract def post(route, data = nil, **options) : JSON::Any
     abstract def put(route, data = nil) : JSON::Any
   end
@@ -127,27 +128,32 @@ module Caridina
             next
           end
 
-          next_batch = response["next_batch"]?.try &.to_s
-          channel.send(Events::Sync.new(response))
+          puts response
+          sync = Responses::Sync.from_json(response)
+          next_batch = sync.next_batch
+          channel.send(sync)
         end
       end
     end
 
     def whoami : String
       response = get "/account/whoami"
+      response = JSON.parse(response)
       response["user_id"].as_s
     end
 
-    def get(route, **options) : JSON::Any
+    def get(route, **options)
       exec "GET", route, **options
     end
 
     def post(route, data = nil, **options) : JSON::Any
-      exec "POST", route, **options, body: data
+      r = exec "POST", route, **options, body: data
+      JSON.parse(r)
     end
 
     def put(route, data = nil) : JSON::Any
-      exec "PUT", route, body: data
+      r = exec "PUT", route, body: data
+      JSON.parse(r)
     end
 
     private def exec(method, route, is_sync = false, is_admin = false, body = nil, **options)
@@ -184,7 +190,7 @@ module Caridina
         begin
           case response.status_code
           when 200
-            return JSON.parse(response.body)
+            return response.body
           when 429
             content = JSON.parse(response.body)
             error = Errors::RateLimited.new(content)
