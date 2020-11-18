@@ -3,7 +3,7 @@ require "json"
 
 require "./events"
 require "./errors"
-require "./responses"
+require "./responses/*"
 
 module Caridina
   # Interface to represent a Matrix client.
@@ -14,7 +14,7 @@ module Caridina
     abstract def edit_message(room_id : String, event_id : String, message : String, html : String? = nil) : Nil
     abstract def send_message(room_id : String, message : String, html : String? = nil) : String
     abstract def get(route, **options)
-    abstract def post(route, data = nil, **options) : JSON::Any
+    abstract def post(route, data = nil, **options)
     abstract def put(route, data = nil) : JSON::Any
   end
 
@@ -61,12 +61,13 @@ module Caridina
     end
 
     def create_filter(filter) : String
-      response = post "/user/#{@user_id}/filter", filter
-      response["filter_id"].as_s
+      response = post("/user/#{@user_id}/filter", filter)
+      response = Responses::Filter.from_json(response)
+      response.filter_id
     end
 
-    def join(room_id)
-      post "/rooms/#{room_id}/join"
+    def join(room_id) : Nil
+      post("/rooms/#{room_id}/join")
     end
 
     def edit_message(room_id : String, event_id : String, message : String, html : String? = nil) : Nil
@@ -146,9 +147,8 @@ module Caridina
       exec "GET", route, **options
     end
 
-    def post(route, data = nil, **options) : JSON::Any
-      r = exec "POST", route, **options, body: data
-      JSON.parse(r)
+    def post(route, data = nil, **options)
+      exec "POST", route, **options, body: data
     end
 
     def put(route, data = nil) : JSON::Any
