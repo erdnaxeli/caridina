@@ -116,12 +116,12 @@ module Caridina
         loop do
           begin
             if next_batch.nil?
-              response = get "/sync", is_sync: true, filter: filter_id
+              response = get("/sync", is_sync: true, filter: filter_id)
             else
-              response = get "/sync", is_sync: true, filter: filter_id, since: next_batch, timeout: 300_000
+              response = get("/sync", is_sync: true, filter: filter_id, since: next_batch, timeout: 300_000)
             end
           rescue ex : ExecError
-            # The sync failed, this is probably due to the HS having
+            # The sync failed, this is probably due to the HS having
             # difficulties, let's not harm it anymore.
             Log.error(exception: ex) { "Error while syncing, waiting 10s before retry" }
             sleep 10
@@ -137,9 +137,9 @@ module Caridina
     end
 
     def whoami : String
-      response = get "/account/whoami"
-      response = JSON.parse(response)
-      response["user_id"].as_s
+      response = get("/account/whoami")
+      response = Responses::WhoAmI.from_json(response)
+      response.user_id
     end
 
     def get(route, **options)

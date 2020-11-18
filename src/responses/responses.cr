@@ -1,1 +1,2 @@
 require "./sync"
+require "./whoami"
