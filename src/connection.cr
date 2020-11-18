@@ -87,7 +87,7 @@ module Caridina
 
     def send_message(room_id : String, message : String, html : String? = nil) : String
       tx_id = get_tx_id
-      payload = get_message_content(message, html)
+      payload = Events::Message::Text.new(message, html)
       data = put("/rooms/#{room_id}/send/m.room.message/#{tx_id}", payload)
 
       Responses::Send.from_json(data).event_id
