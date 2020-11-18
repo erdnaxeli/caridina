@@ -15,7 +15,7 @@ module Caridina
     abstract def send_message(room_id : String, message : String, html : String? = nil) : String
     abstract def get(route, **options)
     abstract def post(route, data = nil, **options)
-    abstract def put(route, data = nil) : JSON::Any
+    abstract def put(route, data = nil)
   end
 
   class ConnectionImpl
@@ -82,15 +82,15 @@ module Caridina
           },
         }
       )
-      put "/rooms/#{room_id}/send/m.room.message/#{tx_id}", data
+      put("/rooms/#{room_id}/send/m.room.message/#{tx_id}", data)
     end
 
     def send_message(room_id : String, message : String, html : String? = nil) : String
       tx_id = get_tx_id
-      data = get_message_content(message, html)
-      response = put "/rooms/#{room_id}/send/m.room.message/#{tx_id}", data
+      payload = get_message_content(message, html)
+      data = put("/rooms/#{room_id}/send/m.room.message/#{tx_id}", payload)
 
-      response["event_id"].as_s
+      Responses::Send.from_json(data).event_id
     end
 
     def sync(channel)
@@ -151,9 +151,8 @@ module Caridina
       exec "POST", route, **options, body: data
     end
 
-    def put(route, data = nil) : JSON::Any
-      r = exec "PUT", route, body: data
-      JSON.parse(r)
+    def put(route, data = nil)
+      exec "PUT", route, body: data
     end
 
     private def exec(method, route, is_sync = false, is_admin = false, body = nil, **options)
