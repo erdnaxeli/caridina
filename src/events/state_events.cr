@@ -75,7 +75,7 @@ module Caridina::Events
       getter type : String
       getter sender : String
 
-      def content : Event::Content?
+      def content : Event::Content
         json = @json_unmapped["content"].to_json
 
         case type
@@ -88,7 +88,7 @@ module Caridina::Events
         when "m.room.member"
           Member::Content.from_json(json)
         else
-          nil
+          Unkonwn::Content.from_json(json)
         end
       end
     end
