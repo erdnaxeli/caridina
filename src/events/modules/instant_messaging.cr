@@ -2,7 +2,7 @@ require "../macros"
 require "../room_events"
 
 module Caridina::Events
-  # m.room.message
+  @[Type("m.room.message")]
   struct Message < Caridina::Events::RoomEvent
     abstract struct Content < Event::Content
       use_json_discriminator_default(

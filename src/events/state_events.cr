@@ -5,7 +5,7 @@ module Caridina::Events
     getter state_key : String
   end
 
-  #  m.room.canonical_alias
+  @[Type("m.room.canonical_alias")]
   struct CanonicalAlias < StateEvent
     struct Content < Event::Content
       getter alias : String?
@@ -13,7 +13,7 @@ module Caridina::Events
     end
   end
 
-  # m.room.create
+  @[Type("m.room.create")]
   struct Create < StateEvent
     struct PreviousRoom
       include JSON::Serializable
@@ -31,7 +31,7 @@ module Caridina::Events
     end
   end
 
-  # m.room.join_rules
+  @[Type("m.room.join_rules")]
   struct JoinRules < StateEvent
     enum JoinRule
       Public
@@ -45,7 +45,7 @@ module Caridina::Events
     end
   end
 
-  # m.room.member
+  @[Type("m.room.member")]
   struct Member < StateEvent
     enum Membership
       Invite
@@ -78,18 +78,18 @@ module Caridina::Events
       def content : Event::Content
         json = @json_unmapped["content"].to_json
 
-        case type
-        when "m.room.canonical_alias"
-          CanonicalAlias::Content.from_json(json)
-        when "m.room.create"
-          Create::Content.from_json(json)
-        when "m.room.join_rules"
-          JoinRules::Content.from_json(json)
-        when "m.room.member"
-          Member::Content.from_json(json)
-        else
-          Unkonwn::Content.from_json(json)
-        end
+        {% begin %}
+          case type
+            {% for subclass in StateEvent.subclasses %}
+              {% if subclass.annotation(Type) %}
+                when {{ subclass.annotation(Type)[0] }}
+                  {{subclass.id}}::Content.from_json(json)
+              {% end %}
+            {% end %}
+          else
+            Unknown::Content.from_json(json)
+          end
+        {% end %}
       end
     end
 
@@ -104,7 +104,7 @@ module Caridina::Events
     getter unsigned : UnsignedData?
   end
 
-  # m.room.power_levels
+  @[Type("m.room.power_levels")]
   struct PowerLevels < StateEvent
     struct Notifications
       include JSON::Serializable

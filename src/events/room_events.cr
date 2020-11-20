@@ -26,7 +26,7 @@ module Caridina::Events
     end
   end
 
-  # m.room.redaction
+  @[Type("m.room.redaction")]
   struct Redaction < RoomEvent
     struct Content < Event::Content
       getter reason : String?

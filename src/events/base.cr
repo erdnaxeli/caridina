@@ -1,6 +1,10 @@
 require "./macros"
 
 module Caridina::Events
+  # Use this annotation to specify the event's type.
+  annotation Type
+  end
+
   # Base type representing an event.
   #
   # It has a class method `#from_json` that can be used to deserialize an event.
