@@ -5,11 +5,11 @@ module Caridina::Events
   @[Type("m.room.message")]
   struct Message < Caridina::Events::RoomEvent
     abstract struct Content < Event::Content
-      use_json_discriminator_default(
-        "msgtype",
+      caridina_use_json_discriminator(
         {
+          "msgtype" => {
           "m.text" => Text,
-        },
+        }},
         Unknown
       )
 

@@ -14,16 +14,17 @@ module Caridina::Events
   abstract struct Event
     include JSON::Serializable
 
-    use_json_discriminator_default(
-      "type",
+    caridina_use_json_discriminator(
       {
-        "m.room.canonical_alias" => CanonicalAlias,
-        "m.room.create"          => Create,
-        "m.room.join_rules"      => JoinRules,
-        "m.room.member"          => Member,
-        "m.room.power_levels"    => PowerLevels,
-        "m.room.redaction"       => Redaction,
-        "m.room.message"         => Message,
+        "type" => {
+          "m.room.canonical_alias" => CanonicalAlias,
+          "m.room.create"          => Create,
+          "m.room.join_rules"      => JoinRules,
+          "m.room.member"          => Member,
+          "m.room.power_levels"    => PowerLevels,
+          "m.room.redaction"       => Redaction,
+          "m.room.message"         => Message,
+        },
       },
       Unknown,
     )
