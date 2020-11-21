@@ -84,7 +84,7 @@ abstract struct Complex
   caridina_use_json_discriminator(
     {
       ["a", "b1", "c", "d2", "e"] => {"1": Result1, "2": Result2},
-      ["type", "name"] => {"2": Result2, "3": Result3},
+      ["type", "name"]            => {"2": Result2, "3": Result3},
     }
   )
 

@@ -8,8 +8,9 @@ module Caridina::Events
       caridina_use_json_discriminator(
         {
           "msgtype" => {
-          "m.text" => Text,
-        }},
+            "m.text" => Text,
+          },
+        },
         Unknown
       )
 

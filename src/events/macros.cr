@@ -15,7 +15,7 @@
 #   caridina_use_json_discriminator(
 #     {
 #       ["type", "name"] => {"A": EventA, "B": EventB},
-#       "event_type" => {"A": EventA, "C": EventC},
+#       "event_type"     => {"A": EventA, "C": EventC},
 #     }
 #   )
 #
