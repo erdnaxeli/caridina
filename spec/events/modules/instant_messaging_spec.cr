@@ -1,5 +1,4 @@
 require "./spec_helper"
-require "../../../src/events/modules/instant_messaging"
 
 describe Caridina::Events::Message do
   it "deserializes unknown message" do
@@ -57,5 +56,80 @@ describe Caridina::Events::Message do
     event.type.should eq("m.room.message")
     event.unsigned.should_not be_nil
     event.unsigned.try &.age.should eq(1234)
+  end
+
+  it "deserializes text edit" do
+    r = Caridina::Events::Event.from_json(%(
+{
+  "content": {
+    "body": "s/foo/bar/",
+    "msgtype": "m.text",
+    "m.new_content": {
+      "body": "Hello! My name is bar",
+      "msgtype": "m.text"
+    },
+    "m.relates_to": {
+      "rel_type": "m.replace",
+      "event_id": "$some_event_id"
+    }
+  },
+  "event_id": "$143273582443PhrSn:example.org",
+  "origin_server_ts": 1432735824653,
+  "room_id": "!jEsUZKDJdhlrceRyVU:example.org",
+  "sender": "@example:example.org",
+  "type": "m.room.message",
+  "unsigned": {
+      "age": 1234
+  }
+}
+    ))
+
+    r = r.as(Caridina::Events::Message)
+    content = r.content.as(Caridina::Events::Message::Text)
+    content.body.should eq("s/foo/bar/")
+    content.msgtype.should eq("m.text")
+    content.relates_to.should_not be_nil
+    content.relates_to.try &.rel_type.should eq("m.replace")
+    content.relates_to.try &.event_id.should eq("$some_event_id")
+
+    content = r.content.as(Caridina::Events::Message::MSC2676::Text)
+    new_content = content.new_content.as(Caridina::Events::Message::Text)
+    new_content.body.should eq("Hello! My name is bar")
+    new_content.msgtype.should eq("m.text")
+  end
+
+  it "deserializes unknown edit to their msgtype" do
+    r = Caridina::Events::Event.from_json(%(
+{
+  "content": {
+    "body": "s/foo/bar/",
+    "msgtype": "m.text",
+    "m.new_content": {
+      "body": "Hello! My name is bar",
+      "msgtype": "m.text"
+    },
+    "m.relates_to": {
+      "rel_type": "m.unknown",
+      "event_id": "$some_event_id"
+    }
+  },
+  "event_id": "$143273582443PhrSn:example.org",
+  "origin_server_ts": 1432735824653,
+  "room_id": "!jEsUZKDJdhlrceRyVU:example.org",
+  "sender": "@example:example.org",
+  "type": "m.room.message",
+  "unsigned": {
+    "age": 1234
+  }
+}
+    ))
+
+    r = r.as(Caridina::Events::Message)
+    content = r.content.as(Caridina::Events::Message::Text)
+    content.body.should eq("s/foo/bar/")
+    content.msgtype.should eq("m.text")
+    content.relates_to.should_not be_nil
+    content.relates_to.try &.rel_type.should eq("m.unknown")
+    content.relates_to.try &.event_id.should eq("$some_event_id")
   end
 end

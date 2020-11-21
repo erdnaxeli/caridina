@@ -1,20 +1,18 @@
-require "./room_events"
-
 module Caridina::Events
-  abstract struct StateEvent < RoomEvent
+  abstract class StateEvent < RoomEvent
     getter state_key : String
   end
 
   @[Type("m.room.canonical_alias")]
-  struct CanonicalAlias < StateEvent
-    struct Content < Event::Content
+  class CanonicalAlias < StateEvent
+    class Content < Event::Content
       getter alias : String?
       getter alt_aliases : Array(String)
     end
   end
 
   @[Type("m.room.create")]
-  struct Create < StateEvent
+  class Create < StateEvent
     struct PreviousRoom
       include JSON::Serializable
 
@@ -22,7 +20,7 @@ module Caridina::Events
       getter event_id : String
     end
 
-    struct Content < Event::Content
+    class Content < Event::Content
       getter creator : String
       @[JSON::Field(key: "m.federate")]
       getter m_federate = true
@@ -32,7 +30,7 @@ module Caridina::Events
   end
 
   @[Type("m.room.join_rules")]
-  struct JoinRules < StateEvent
+  class JoinRules < StateEvent
     enum JoinRule
       Public
       Knock
@@ -40,13 +38,13 @@ module Caridina::Events
       Private
     end
 
-    struct Content < Event::Content
+    class Content < Event::Content
       getter join_rule : JoinRule
     end
   end
 
   @[Type("m.room.member")]
-  struct Member < StateEvent
+  class Member < StateEvent
     enum Membership
       Invite
       Join
@@ -93,7 +91,7 @@ module Caridina::Events
       end
     end
 
-    struct Content < Event::Content
+    class Content < Event::Content
       getter avatar_url : String?
       getter displayname : String?
       getter membership : Membership
@@ -105,14 +103,14 @@ module Caridina::Events
   end
 
   @[Type("m.room.power_levels")]
-  struct PowerLevels < StateEvent
+  class PowerLevels < StateEvent
     struct Notifications
       include JSON::Serializable
 
       getter room = 50_u8
     end
 
-    struct Content < Event::Content
+    class Content < Event::Content
       getter ban = 50_u8
       getter events = Hash(String, UInt8).new
       getter events_default = 0_u8

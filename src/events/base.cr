@@ -1,5 +1,3 @@
-require "./macros"
-
 module Caridina::Events
   # Use this annotation to specify the event's type.
   annotation Type
@@ -11,7 +9,7 @@ module Caridina::Events
   #  You can then match the returned event type against known types.
   #
   # If the event is unknown, it returns nil.
-  abstract struct Event
+  abstract class Event
     include JSON::Serializable
 
     caridina_use_json_discriminator(
@@ -29,21 +27,32 @@ module Caridina::Events
       Unknown,
     )
 
-    abstract struct Content
+    struct RelatesTo
       include JSON::Serializable
+
+      getter rel_type : String
+      getter event_id : String
+    end
+
+    abstract class Content
+      include JSON::Serializable
+
+      # This implements MSC2674
+      @[JSON::Field(key: "m.relates_to")]
+      getter relates_to : RelatesTo?
     end
 
     getter type : String
 
     macro inherited
-      {% if !@type.abstract? && !@type.instance_vars.find { |v| v.name == "content" } %}
+      {% if !@type.abstract? && !@type.has_method?("content") %}
         getter content : Content
       {% end %}
     end
   end
 
-  struct Unknown < Event
-    struct Content < Event::Content
+  class Unknown < Event
+    class Content < Event::Content
     end
 
     getter content : Content?

@@ -1,5 +1,4 @@
 require "./spec_helper"
-require "../../src/events/events"
 
 describe Caridina::Events::Event do
   it "serializes unknown events" do

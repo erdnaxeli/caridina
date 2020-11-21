@@ -1,9 +1,5 @@
-require "json"
-
-require "./base"
-
 module Caridina::Events
-  abstract struct RoomEvent < Event
+  abstract class RoomEvent < Event
     abstract struct UnsignedData
       include JSON::Serializable
 
@@ -17,7 +13,7 @@ module Caridina::Events
     getter room_id : String?
 
     macro inherited
-      {% if !@type.abstract? && !@type.instance_vars.find { |v| v.name == "unsigned" } %}
+      {% if !@type.abstract? && !@type.has_method?("unsigned") %}
         struct UnsignedData < RoomEvent::UnsignedData
         end
 
@@ -27,8 +23,8 @@ module Caridina::Events
   end
 
   @[Type("m.room.redaction")]
-  struct Redaction < RoomEvent
-    struct Content < Event::Content
+  class Redaction < RoomEvent
+    class Content < Event::Content
       getter reason : String?
     end
   end

@@ -1,7 +1,6 @@
 require "json"
 
 require "./spec_helper"
-require "../../src/events/macros"
 
 struct A
   include JSON::Serializable
@@ -284,7 +283,77 @@ describe "caridina_use_json_discriminator" do
     r.name.should eq("ugly json")
   end
 
-  it "deserialize even when many discrimantors are present" do
+  it "does not stop when one discriminator is unknown" do
+    r = Complex.from_json(%(
+{
+  "a": {
+    "b1": {
+      "c": {
+        "d1": {
+          "e": "f"
+        },
+        "d2": {
+          "e": "unknown"
+        }
+      }
+    },
+    "b2": {
+      "c": {
+        "d1": {
+          "e": "g"
+        },
+        "d2": {
+          "e": "h"
+        }
+      }
+    }
+  },
+  "name": "ugly json",
+  "type": {
+    "name": "2"
+  }
+}
+    ))
+
+    r.as(Complex::Result2)
+  end
+
+  it "respects discriminators priority" do
+    r = Complex.from_json(%(
+{
+  "name": "ugly json",
+  "type": {
+    "name": "2"
+  },
+  "a": {
+    "b1": {
+      "c": {
+        "d1": {
+          "e": "f"
+        },
+        "d2": {
+          "e": "1"
+        }
+      }
+    },
+    "b2": {
+      "c": {
+        "d1": {
+          "e": "g"
+        },
+        "d2": {
+          "e": "h"
+        }
+      }
+    }
+  }
+}
+    ))
+
+    r.as(Complex::Result2)
+  end
+
+  it "keeps the last discriminator known value" do
     r = Complex.from_json(%(
 {
   "a": {
@@ -311,14 +380,12 @@ describe "caridina_use_json_discriminator" do
   },
   "name": "ugly json",
   "type": {
-    "name": "2"
+    "name": "unknown"
   }
 }
     ))
 
-    # This behavior is not in the doc, but it actually uses the last seen
-    # discriminator.
-    r.as(Complex::Result2)
+    r.as(Complex::Result1)
   end
 
   it "accepts a fallback" do

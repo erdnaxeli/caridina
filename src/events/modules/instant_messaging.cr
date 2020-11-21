@@ -1,14 +1,14 @@
-require "../macros"
-require "../room_events"
-
 module Caridina::Events
   @[Type("m.room.message")]
-  struct Message < Caridina::Events::RoomEvent
-    abstract struct Content < Event::Content
+  class Message < Caridina::Events::RoomEvent
+    abstract class Content < Event::Content
       caridina_use_json_discriminator(
         {
           "msgtype" => {
             "m.text" => Text,
+          },
+          ["m.relates_to", "rel_type"] => {
+            "m.replace" => MSC2676::Dispatcher,
           },
         },
         Unknown
@@ -16,10 +16,11 @@ module Caridina::Events
 
       getter body : String
       getter msgtype : String
+      getter
     end
 
     # m.text
-    struct Text < Content
+    class Text < Content
       getter format : String?
       getter formatted_body : String?
 
@@ -31,7 +32,33 @@ module Caridina::Events
       end
     end
 
-    struct Unknown < Content
+    class Unknown < Content
+    end
+
+    module MSC2676
+      # :nodoc:
+      class Dispatcher
+        include JSON::Serializable
+
+        caridina_use_json_discriminator(
+          {
+            "msgtype" => {
+              "m.text" => Text,
+            },
+          }
+        )
+      end
+
+      module Content
+        include JSON::Serializable
+
+        @[JSON::Field(key: "m.new_content")]
+        getter new_content : Events::Message::Content
+      end
+
+      class Text < Message::Text
+        include Content
+      end
     end
   end
 end
