@@ -3,8 +3,8 @@
 # It supports looking at many fields to discriminate the type. It can also look
 # in a child object's field.
 #
-# If a fallback type is provided, is try to deserialize the given json with it
-# instead of raising when the the discriminator value is unknown.
+# If a fallback type is provided, it uses it to deserialize the given json instead
+# of raising when the the discriminator value is unknown.
 #
 # For example:
 #
@@ -22,7 +22,7 @@
 #   struct Type
 #     include JSON::Serializable
 #
-#     getter name
+#     getter name : String
 #   end
 #
 #   getter type : Type
@@ -31,21 +31,23 @@
 #
 # Event.from_json(%(
 #   {
-#     "type": {"name": "A"}
+#     "type": {"name": "A"},
+#     ...
 #   }
 # )) # => EventA(…)
 #
 # Event.from_json(%(
 #   {
-#     "event_type": "C"
+#     "event_type": "C",
+#     ...
 #   }
 # )) # => EventC(…)
 # ```
 #
-# When checking a nested field, you must use an array. There is no limit on the
-# level of nesting.
+# You MUST use an array when using a nested field as a discriminator field. There
+# is no limit on the level of nesting.
 #
-# If many discriminator field match, which one will be used is not guaranteed.
+# If many discriminator fields match, which one will be used is not guaranteed.
 macro caridina_use_json_discriminator(mapping, fallback = nil)
   {% unless mapping.is_a?(HashLiteral) || mapping.is_a?(NamedTupleLiteral) %}
     {% mapping.raise "mapping argument must be a HashLiteral or a NamedTupleLiteral, not #{mapping.class_name.id}" %}
