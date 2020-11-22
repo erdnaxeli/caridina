@@ -120,7 +120,6 @@ module Caridina
             next
           end
 
-          puts response
           sync = Responses::Sync.from_json(response)
           next_batch = sync.next_batch
           channel.send(sync)
