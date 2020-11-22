@@ -32,6 +32,9 @@ module Caridina::Events
 
       getter rel_type : String
       getter event_id : String
+
+      def initialize(@rel_type, @event_id)
+      end
     end
 
     abstract class Content

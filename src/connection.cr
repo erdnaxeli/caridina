@@ -72,16 +72,7 @@ module Caridina
 
     def edit_message(room_id : String, event_id : String, message : String, html : String? = nil) : Nil
       tx_id = get_tx_id
-      new_content = get_message_content(message, html)
-      data = new_content.merge(
-        {
-          "m.new_content": new_content,
-          "m.relates_to":  {
-            rel_type: "m.replace",
-            event_id: event_id,
-          },
-        }
-      )
+      data = Events::Message::MSC2676::Text.new(message, html, event_id)
       put("/rooms/#{room_id}/send/m.room.message/#{tx_id}", data)
     end
 
@@ -204,24 +195,6 @@ module Caridina
           raise ExecError.new
         end
       end
-    end
-
-    private def get_message_content(message : String, html : String? = nil) : NamedTuple
-      data = {
-        body:    message,
-        msgtype: "m.text",
-      }
-
-      if !html.nil?
-        data = data.merge(
-          {
-            format:         "org.matrix.custom.html",
-            formatted_body: html,
-          }
-        )
-      end
-
-      data
     end
 
     private def get_tx_id : String

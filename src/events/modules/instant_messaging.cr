@@ -50,14 +50,19 @@ module Caridina::Events
       end
 
       module Content
-        include JSON::Serializable
-
         @[JSON::Field(key: "m.new_content")]
         getter new_content : Events::Message::Content
       end
 
       class Text < Message::Text
         include Content
+
+        def initialize(@body, @formatted_body, event_id)
+          @relates_to = Event::RelatesTo.new("m.replace", event_id)
+          @new_content = Message::Text.new(body, formatted_body)
+
+          super(@body, @formatted_body)
+        end
       end
     end
   end
