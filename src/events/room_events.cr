@@ -10,7 +10,9 @@ module Caridina::Events
     getter event_id : String
     getter sender : String
     getter origin_server_ts : UInt64
-    getter room_id : String?
+    # "room_id" is not set in events returned from the sync API, so we need to
+    # set it up ourself.
+    property room_id : String?
 
     macro inherited
       {% if !@type.abstract? && !@type.has_method?("unsigned") %}

@@ -26,6 +26,12 @@ module Caridina::Responses
     struct InvitedRoom
       include JSON::Serializable
 
+      getter invite_state : InviteState
+    end
+
+    struct InviteState
+      include JSON::Serializable
+
       getter events : Array(Events::Member::StrippedState)
     end
 
