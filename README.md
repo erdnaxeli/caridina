@@ -1,6 +1,10 @@
 # caridina
 
-A [Matrix](https://matrix.org) client library.
+A [Matrix](https://matrix.org) client library written in [Crystal](https://crystal-lang.org).
+
+It is also a species of shrimp, one of them being named "crystal red". Crystal for the language, red for the Matrix's red pill.
+
+<img alt="a crystal red shrimp" src="https://upload.wikimedia.org/wikipedia/commons/4/46/Caridina-cf-cantonensis-red-bee.jpg" width=250/>
 
 ## Installation
 
