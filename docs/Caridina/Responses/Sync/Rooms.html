@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.34.0">
+<meta name="crystal_docs.project_version" content="main">
+<meta name="crystal_docs.project_name" content="caridina">
+
+
+<link href="../../../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../../../js/doc.js"></script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+
+  <meta id="repository-name" content="caridina">
+  <title>Caridina::Responses::Sync::Rooms - caridina main</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../../../";
+  </script>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../../../index.html">
+          caridina
+        </a>
+      </h1>
+
+      <span class="project-version">
+        main
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" " data-id="caridina/toplevel" data-name="top level namespace">
+      <a href="../../../toplevel.html">Top Level Namespace</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="caridina/Caridina" data-name="caridina">
+      <a href="../../../Caridina.html">Caridina</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="caridina/Caridina/Connection" data-name="caridina::connection">
+      <a href="../../../Caridina/Connection.html">Connection</a>
+      
+        <ul>
+  
+  <li class=" " data-id="caridina/Caridina/Connection/ExecError" data-name="caridina::connection::execerror">
+      <a href="../../../Caridina/Connection/ExecError.html">ExecError</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/ConnectionImpl" data-name="caridina::connectionimpl">
+      <a href="../../../Caridina/ConnectionImpl.html">ConnectionImpl</a>
+      
+    </li>
+  
+  <li class="parent " data-id="caridina/Caridina/Errors" data-name="caridina::errors">
+      <a href="../../../Caridina/Errors.html">Errors</a>
+      
+        <ul>
+  
+  <li class=" " data-id="caridina/Caridina/Errors/RateLimited" data-name="caridina::errors::ratelimited">
+      <a href="../../../Caridina/Errors/RateLimited.html">RateLimited</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="caridina/Caridina/Events" data-name="caridina::events">
+      <a href="../../../Caridina/Events.html">Events</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="caridina/Caridina/Events/CanonicalAlias" data-name="caridina::events::canonicalalias">
+      <a href="../../../Caridina/Events/CanonicalAlias.html">CanonicalAlias</a>
+      
+        <ul>
+  
+  <li class=" " data-id="caridina/Caridina/Events/CanonicalAlias/Content" data-name="caridina::events::canonicalalias::content">
+      <a href="../../../Caridina/Events/CanonicalAlias/Content.html">Content</a>
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Events/CanonicalAlias/UnsignedData" data-name="caridina::events::canonicalalias::unsigneddata">
+      <a href="../../../Caridina/Events/CanonicalAlias/UnsignedData.html">UnsignedData</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="caridina/Caridina/Events/Create" data-name="caridina::events::create">
+      <a href="../../../Caridina/Events/Create.html">Create</a>
+      
+        <ul>
+  
+  <li class=" " data-id="caridina/Caridina/Events/Create/Content" data-name="caridina::events::create::content">
+      <a href="../../../Caridina/Events/Create/Content.html">Content</a>
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Events/Create/PreviousRoom" data-name="caridina::events::create::previousroom">
+      <a href="../../../Caridina/Events/Create/PreviousRoom.html">PreviousRoom</a>
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Events/Create/UnsignedData" data-name="caridina::events::create::unsigneddata">
+      <a href="../../../Caridina/Events/Create/UnsignedData.html">UnsignedData</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="caridina/Caridina/Events/Event" data-name="caridina::events::event">
+      <a href="../../../Caridina/Events/Event.html">Event</a>
+      
+        <ul>
+  
+  <li class=" " data-id="caridina/Caridina/Events/Event/Content" data-name="caridina::events::event::content">
+      <a href="../../../Caridina/Events/Event/Content.html">Content</a>
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Events/Event/RelatesTo" data-name="caridina::events::event::relatesto">
+      <a href="../../../Caridina/Events/Event/RelatesTo.html">RelatesTo</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="caridina/Caridina/Events/JoinRules" data-name="caridina::events::joinrules">
+      <a href="../../../Caridina/Events/JoinRules.html">JoinRules</a>
+      
+        <ul>
+  
+  <li class=" " data-id="caridina/Caridina/Events/JoinRules/Content" data-name="caridina::events::joinrules::content">
+      <a href="../../../Caridina/Events/JoinRules/Content.html">Content</a>
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Events/JoinRules/JoinRule" data-name="caridina::events::joinrules::joinrule">
+      <a href="../../../Caridina/Events/JoinRules/JoinRule.html">JoinRule</a>
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Events/JoinRules/UnsignedData" data-name="caridina::events::joinrules::unsigneddata">
+      <a href="../../../Caridina/Events/JoinRules/UnsignedData.html">UnsignedData</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="caridina/Caridina/Events/Member" data-name="caridina::events::member">
+      <a href="../../../Caridina/Events/Member.html">Member</a>
+      
+        <ul>
+  
+  <li class=" " data-id="caridina/Caridina/Events/Member/Content" data-name="caridina::events::member::content">
+      <a href="../../../Caridina/Events/Member/Content.html">Content</a>
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Events/Member/Invite" data-name="caridina::events::member::invite">
+      <a href="../../../Caridina/Events/Member/Invite.html">Invite</a>
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Events/Member/Membership" data-name="caridina::events::member::membership">
+      <a href="../../../Caridina/Events/Member/Membership.html">Membership</a>
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Events/Member/StrippedState" data-name="caridina::events::member::strippedstate">
+      <a href="../../../Caridina/Events/Member/StrippedState.html">StrippedState</a>
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Events/Member/UnsignedData" data-name="caridina::events::member::unsigneddata">
+      <a href="../../../Caridina/Events/Member/UnsignedData.html">UnsignedData</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="caridina/Caridina/Events/Message" data-name="caridina::events::message">
+      <a href="../../../Caridina/Events/Message.html">Message</a>
+      
+        <ul>
+  
+  <li class=" " data-id="caridina/Caridina/Events/Message/Content" data-name="caridina::events::message::content">
+      <a href="../../../Caridina/Events/Message/Content.html">Content</a>
+      
+    </li>
+  
+  <li class="parent " data-id="caridina/Caridina/Events/Message/MSC2676" data-name="caridina::events::message::msc2676">
+      <a href="../../../Caridina/Events/Message/MSC2676.html">MSC2676</a>
+      
+        <ul>
+  
+  <li class=" " data-id="caridina/Caridina/Events/Message/MSC2676/Content" data-name="caridina::events::message::msc2676::content">
+      <a href="../../../Caridina/Events/Message/MSC2676/Content.html">Content</a>
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Events/Message/MSC2676/Text" data-name="caridina::events::message::msc2676::text">
+      <a href="../../../Caridina/Events/Message/MSC2676/Text.html">Text</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Events/Message/Text" data-name="caridina::events::message::text">
+      <a href="../../../Caridina/Events/Message/Text.html">Text</a>
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Events/Message/Unknown" data-name="caridina::events::message::unknown">
+      <a href="../../../Caridina/Events/Message/Unknown.html">Unknown</a>
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Events/Message/UnsignedData" data-name="caridina::events::message::unsigneddata">
+      <a href="../../../Caridina/Events/Message/UnsignedData.html">UnsignedData</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="caridina/Caridina/Events/PowerLevels" data-name="caridina::events::powerlevels">
+      <a href="../../../Caridina/Events/PowerLevels.html">PowerLevels</a>
+      
+        <ul>
+  
+  <li class=" " data-id="caridina/Caridina/Events/PowerLevels/Content" data-name="caridina::events::powerlevels::content">
+      <a href="../../../Caridina/Events/PowerLevels/Content.html">Content</a>
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Events/PowerLevels/Notifications" data-name="caridina::events::powerlevels::notifications">
+      <a href="../../../Caridina/Events/PowerLevels/Notifications.html">Notifications</a>
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Events/PowerLevels/UnsignedData" data-name="caridina::events::powerlevels::unsigneddata">
+      <a href="../../../Caridina/Events/PowerLevels/UnsignedData.html">UnsignedData</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="caridina/Caridina/Events/Redaction" data-name="caridina::events::redaction">
+      <a href="../../../Caridina/Events/Redaction.html">Redaction</a>
+      
+        <ul>
+  
+  <li class=" " data-id="caridina/Caridina/Events/Redaction/Content" data-name="caridina::events::redaction::content">
+      <a href="../../../Caridina/Events/Redaction/Content.html">Content</a>
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Events/Redaction/UnsignedData" data-name="caridina::events::redaction::unsigneddata">
+      <a href="../../../Caridina/Events/Redaction/UnsignedData.html">UnsignedData</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="caridina/Caridina/Events/RoomEvent" data-name="caridina::events::roomevent">
+      <a href="../../../Caridina/Events/RoomEvent.html">RoomEvent</a>
+      
+        <ul>
+  
+  <li class=" " data-id="caridina/Caridina/Events/RoomEvent/UnsignedData" data-name="caridina::events::roomevent::unsigneddata">
+      <a href="../../../Caridina/Events/RoomEvent/UnsignedData.html">UnsignedData</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Events/StateEvent" data-name="caridina::events::stateevent">
+      <a href="../../../Caridina/Events/StateEvent.html">StateEvent</a>
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Events/Type" data-name="caridina::events::type">
+      <a href="../../../Caridina/Events/Type.html">Type</a>
+      
+    </li>
+  
+  <li class="parent " data-id="caridina/Caridina/Events/Unknown" data-name="caridina::events::unknown">
+      <a href="../../../Caridina/Events/Unknown.html">Unknown</a>
+      
+        <ul>
+  
+  <li class=" " data-id="caridina/Caridina/Events/Unknown/Content" data-name="caridina::events::unknown::content">
+      <a href="../../../Caridina/Events/Unknown/Content.html">Content</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent open current" data-id="caridina/Caridina/Responses" data-name="caridina::responses">
+      <a href="../../../Caridina/Responses.html">Responses</a>
+      
+        <ul>
+  
+  <li class=" " data-id="caridina/Caridina/Responses/Filter" data-name="caridina::responses::filter">
+      <a href="../../../Caridina/Responses/Filter.html">Filter</a>
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Responses/Response" data-name="caridina::responses::response">
+      <a href="../../../Caridina/Responses/Response.html">Response</a>
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Responses/Send" data-name="caridina::responses::send">
+      <a href="../../../Caridina/Responses/Send.html">Send</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="caridina/Caridina/Responses/Sync" data-name="caridina::responses::sync">
+      <a href="../../../Caridina/Responses/Sync.html">Sync</a>
+      
+        <ul>
+  
+  <li class=" " data-id="caridina/Caridina/Responses/Sync/InvitedRoom" data-name="caridina::responses::sync::invitedroom">
+      <a href="../../../Caridina/Responses/Sync/InvitedRoom.html">InvitedRoom</a>
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Responses/Sync/InviteState" data-name="caridina::responses::sync::invitestate">
+      <a href="../../../Caridina/Responses/Sync/InviteState.html">InviteState</a>
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Responses/Sync/JoinedRoom" data-name="caridina::responses::sync::joinedroom">
+      <a href="../../../Caridina/Responses/Sync/JoinedRoom.html">JoinedRoom</a>
+      
+    </li>
+  
+  <li class=" current" data-id="caridina/Caridina/Responses/Sync/Rooms" data-name="caridina::responses::sync::rooms">
+      <a href="../../../Caridina/Responses/Sync/Rooms.html">Rooms</a>
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Responses/Sync/Timeline" data-name="caridina::responses::sync::timeline">
+      <a href="../../../Caridina/Responses/Sync/Timeline.html">Timeline</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Responses/WhoAmI" data-name="caridina::responses::whoami">
+      <a href="../../../Caridina/Responses/WhoAmI.html">WhoAmI</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="caridina/Caridina/Syncer" data-name="caridina::syncer">
+      <a href="../../../Caridina/Syncer.html">Syncer</a>
+      
+        <ul>
+  
+  <li class=" " data-id="caridina/Caridina/Syncer/EventListener" data-name="caridina::syncer::eventlistener">
+      <a href="../../../Caridina/Syncer/EventListener.html">EventListener</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">struct</span> Caridina::Responses::Sync::Rooms
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../../../Caridina/Responses/Sync/Rooms.html">Caridina::Responses::Sync::Rooms</a></li><li class="superclass">Struct</li><li class="superclass">Value</li><li class="superclass">Object</li></ul>
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="included-modules" class="anchor" href="#included-modules">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Included Modules
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type">JSON::Serializable</li>
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/erdnaxeli/caridina/blob/12b1b316bd765339459826dda4f222483c1bdb67/src/responses/sync.cr#L7" target="_blank">
+        responses/sync.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new(pull:JSON::PullParser)-class-method" class="signature"><strong>.new</strong>(pull : JSON::PullParser)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#invite:Hash(String,InvitedRoom)-instance-method" class="signature"><strong>#invite</strong> : Hash(String, InvitedRoom)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#join:Hash(String,JoinedRoom)-instance-method" class="signature"><strong>#join</strong> : Hash(String, JoinedRoom)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(pull:JSON::PullParser)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(pull : JSON::PullParser)
+
+        <a class="method-permalink" href="#new(pull:JSON::PullParser)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/erdnaxeli/caridina/blob/12b1b316bd765339459826dda4f222483c1bdb67/src/responses/sync.cr#L8" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="invite:Hash(String,InvitedRoom)-instance-method">
+      <div class="signature">
+        
+        def <strong>invite</strong> : Hash(String, <a href="../../../Caridina/Responses/Sync/InvitedRoom.html">InvitedRoom</a>)
+
+        <a class="method-permalink" href="#invite:Hash(String,InvitedRoom)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/erdnaxeli/caridina/blob/12b1b316bd765339459826dda4f222483c1bdb67/src/responses/sync.cr#L11" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="join:Hash(String,JoinedRoom)-instance-method">
+      <div class="signature">
+        
+        def <strong>join</strong> : Hash(String, <a href="../../../Caridina/Responses/Sync/JoinedRoom.html">JoinedRoom</a>)
+
+        <a class="method-permalink" href="#join:Hash(String,JoinedRoom)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/erdnaxeli/caridina/blob/12b1b316bd765339459826dda4f222483c1bdb67/src/responses/sync.cr#L10" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>
