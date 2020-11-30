@@ -48,7 +48,7 @@ access_token = Caridina::ConnectionImpl.login(
 Now we can create a new channel, and tell the connection object to start syncing.
 The sync responses will be streamed in the channel.
 
-```
+```Crystal
 matrix = Channel(Caridina::Events::Sync).new
 conn.sync(matrix)
 
@@ -60,7 +60,7 @@ You have now a [sync response](src/response/sync.cr).
 If you don't want to go through the whole sync response by yourself (which is
 understandable), we provide you a [Caridina::Syncer](src/syncer.cr) object.
 
-```
+```Crystal
 syncer = Caridina::Syncer.new
 syncer.on(Caridina::Events::Message) do |event|
   # TODO: actually do something
@@ -79,7 +79,7 @@ If you don't use the `Syncer`, most of the events you will see in the sync respo
 will be `Caridina::Events::Event` objects. You need to restrict the type of an event
 object to access all its fields.
 
-```
+```Crystal
 sync.rooms.try &.join.each do |room_id, room|
   room.timeline.events.each do |event|
     case event
@@ -110,7 +110,7 @@ You usually do not need to worry about crafting the event to send.
 > :warning: This part is in a very early stage.
 > Currently only a few methods are provided.
 
-```
+```Crystal
 # join a room
 conn.join("!room_id:matrix.org")
 # send a message
