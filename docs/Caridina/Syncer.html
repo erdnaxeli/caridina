@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Crystal Docs 0.34.0">
-<meta name="crystal_docs.project_version" content="main">
+<meta name="crystal_docs.project_version" content="main-dev">
 <meta name="crystal_docs.project_name" content="caridina">
 
 
@@ -18,7 +18,7 @@
 </svg>
 
   <meta id="repository-name" content="caridina">
-  <title>Caridina::Syncer - caridina main</title>
+  <title>Caridina::Syncer - caridina main-dev</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -39,7 +39,7 @@
       </h1>
 
       <span class="project-version">
-        main
+        main-dev
       </span>
     </div>
   </div>
@@ -211,11 +211,6 @@
       
     </li>
   
-  <li class=" " data-id="caridina/Caridina/Events/Member/StrippedState" data-name="caridina::events::member::strippedstate">
-      <a href="../Caridina/Events/Member/StrippedState.html">StrippedState</a>
-      
-    </li>
-  
   <li class=" " data-id="caridina/Caridina/Events/Member/UnsignedData" data-name="caridina::events::member::unsigneddata">
       <a href="../Caridina/Events/Member/UnsignedData.html">UnsignedData</a>
       
@@ -341,6 +336,11 @@
       
     </li>
   
+  <li class=" " data-id="caridina/Caridina/Events/StrippedState" data-name="caridina::events::strippedstate">
+      <a href="../Caridina/Events/StrippedState.html">StrippedState</a>
+      
+    </li>
+  
   <li class=" " data-id="caridina/Caridina/Events/Type" data-name="caridina::events::type">
       <a href="../Caridina/Events/Type.html">Type</a>
       
@@ -441,6 +441,11 @@
       
     </li>
   
+  <li class=" " data-id="caridina/Caridina/Syncer/Source" data-name="caridina::syncer::source">
+      <a href="../Caridina/Syncer/Source.html">Source</a>
+      
+    </li>
+  
 </ul>
 
       
@@ -470,6 +475,32 @@
 
 
 
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>This object allow you to register listeners to be executed when some events
+are received.</p>
+
+<p>This avoid you to have to parse the whole <code><a href="../Caridina/Responses/Sync.html">Responses::Sync</a></code>.
+However <code><a href="../Caridina/Syncer.html#process_response(sync:Responses::Sync):Nil-instance-method">#process_response</a></code> must be called with a <code><a href="../Caridina/Responses/Sync.html">Responses::Sync</a></code> manually.
+This allow you to control precisely when you want to handle events.</p>
+
+<pre><code>syncer <span class="o">=</span> <span class="t">Caridina</span><span class="t">::</span><span class="t">Syncer</span>.<span class="k">new</span>
+syncer.on(<span class="t">Caridina</span><span class="t">::</span><span class="t">Events</span><span class="t">::</span><span class="t">Message</span>) <span class="k">do</span> <span class="o">|</span>event<span class="o">|</span>
+  <span class="c"># TODO: actually do something</span>
+<span class="k">end</span>
+
+syncer.process_response(sync)</code></pre>
+
+<p>Events sent to listeners are <code><a href="../Caridina/Events/Event.html">Events::Event</a></code> objects.
+You should use a type restriction in order to access all their fields.</p>
+
 
 
 
@@ -492,13 +523,6 @@
     Defined in:
   </h2>
   
-    
-      <a href="https://github.com/erdnaxeli/caridina/blob/12b1b316bd765339459826dda4f222483c1bdb67/src/syncer.cr#L3" target="_blank">
-        syncer.cr
-      </a>
-    
-    <br/>
-  
 
 
 
@@ -519,7 +543,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#on(event_type:Events::Event.class,&block:EventListener):Nil-instance-method" class="signature"><strong>#on</strong>(event_type : <span class="t">Events</span><span class="t">::</span><span class="t">Event</span>.<span class="k">class</span>, &block : EventListener) : Nil</a>
+        <a href="#on(event_type:Events::Event.class,source=Source::All,&block:EventListener):Nil-instance-method" class="signature"><strong>#on</strong>(event_type : <span class="t">Events</span><span class="t">::</span><span class="t">Event</span>.<span class="k">class</span>, source = <span class="t">Source</span><span class="t">::</span><span class="t">All</span>, &block : EventListener) : Nil</a>
         
       </li>
     
@@ -572,18 +596,16 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="on(event_type:Events::Event.class,&block:EventListener):Nil-instance-method">
+    <div class="entry-detail" id="on(event_type:Events::Event.class,source=Source::All,&block:EventListener):Nil-instance-method">
       <div class="signature">
         
-        def <strong>on</strong>(event_type : <span class="t">Events</span><span class="t">::</span><span class="t">Event</span>.<span class="k">class</span>, &block : <a href="../Caridina/Syncer/EventListener.html">EventListener</a>) : Nil
+        def <strong>on</strong>(event_type : <span class="t">Events</span><span class="t">::</span><span class="t">Event</span>.<span class="k">class</span>, source = <span class="t">Source</span><span class="t">::</span><span class="t">All</span>, &block : <a href="../Caridina/Syncer/EventListener.html">EventListener</a>) : Nil
 
-        <a class="method-permalink" href="#on(event_type:Events::Event.class,&block:EventListener):Nil-instance-method">#</a>
+        <a class="method-permalink" href="#on(event_type:Events::Event.class,source=Source::All,&block:EventListener):Nil-instance-method">#</a>
       </div>
       
       <br/>
       <div>
-        
-          [<a href="https://github.com/erdnaxeli/caridina/blob/12b1b316bd765339459826dda4f222483c1bdb67/src/syncer.cr#L21" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -598,8 +620,6 @@
       
       <br/>
       <div>
-        
-          [<a href="https://github.com/erdnaxeli/caridina/blob/12b1b316bd765339459826dda4f222483c1bdb67/src/syncer.cr#L7" target="_blank">View source</a>]
         
       </div>
     </div>

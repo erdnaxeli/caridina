@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Crystal Docs 0.34.0">
-<meta name="crystal_docs.project_version" content="main">
+<meta name="crystal_docs.project_version" content="main-dev">
 <meta name="crystal_docs.project_name" content="caridina">
 
 
@@ -18,7 +18,7 @@
 </svg>
 
   <meta id="repository-name" content="caridina">
-  <title>caridina main</title>
+  <title>caridina main-dev</title>
   <script type="text/javascript">
   CrystalDocs.base_path = "";
   </script>
@@ -39,7 +39,7 @@
       </h1>
 
       <span class="project-version">
-        main
+        main-dev
       </span>
     </div>
   </div>
@@ -211,11 +211,6 @@
       
     </li>
   
-  <li class=" " data-id="caridina/Caridina/Events/Member/StrippedState" data-name="caridina::events::member::strippedstate">
-      <a href="Caridina/Events/Member/StrippedState.html">StrippedState</a>
-      
-    </li>
-  
   <li class=" " data-id="caridina/Caridina/Events/Member/UnsignedData" data-name="caridina::events::member::unsigneddata">
       <a href="Caridina/Events/Member/UnsignedData.html">UnsignedData</a>
       
@@ -341,6 +336,11 @@
       
     </li>
   
+  <li class=" " data-id="caridina/Caridina/Events/StrippedState" data-name="caridina::events::strippedstate">
+      <a href="Caridina/Events/StrippedState.html">StrippedState</a>
+      
+    </li>
+  
   <li class=" " data-id="caridina/Caridina/Events/Type" data-name="caridina::events::type">
       <a href="Caridina/Events/Type.html">Type</a>
       
@@ -441,6 +441,11 @@
       
     </li>
   
+  <li class=" " data-id="caridina/Caridina/Syncer/Source" data-name="caridina::syncer::source">
+      <a href="Caridina/Syncer/Source.html">Source</a>
+      
+    </li>
+  
 </ul>
 
       
@@ -526,20 +531,20 @@ conn <span class="o">=</span> <span class="t">Caridina</span><span class="t">::<
 <p>Now we can create a new channel, and tell the connection object to start syncing.
 The sync responses will be streamed in the channel.</p>
 
-<pre><code>matrix <span class="o">=</span> <span class="t">Channel</span>(<span class="t">Caridina</span><span class="t">::</span><span class="t">Events</span><span class="t">::</span><span class="t">Sync</span>).<span class="k">new</span>
+<pre><code class="language-Crystal">matrix = Channel(Caridina::Events::Sync).new
 conn.sync(matrix)
 
-sync <span class="o">=</span> matrix.receive</code></pre>
+sync = matrix.receive</code></pre>
 
 <p>You have now a <a href="src/response/sync.cr" target="_blank">sync response</a>.</p>
 
 <p>If you don't want to go through the whole sync response by yourself (which is
 understandable), we provide you a <a href="src/syncer.cr" target="_blank">Caridina::Syncer</a> object.</p>
 
-<pre><code>syncer <span class="o">=</span> <span class="t">Caridina</span><span class="t">::</span><span class="t">Syncer</span>.<span class="k">new</span>
-syncer.on(<span class="t">Caridina</span><span class="t">::</span><span class="t">Events</span><span class="t">::</span><span class="t">Message</span>) <span class="k">do</span> <span class="o">|</span>event<span class="o">|</span>
-  <span class="c"># TODO: actually do something</span>
-<span class="k">end</span>
+<pre><code class="language-Crystal">syncer = Caridina::Syncer.new
+syncer.on(Caridina::Events::Message) do |event|
+  # TODO: actually do something
+end
 
 syncer.process_response(sync)</code></pre>
 
@@ -557,20 +562,20 @@ syncer.process_response(sync)</code></pre>
 will be <code><a href="Caridina/Events/Event.html">Caridina::Events::Event</a></code> objects. You need to restrict the type of an event
 object to access all its fields.</p>
 
-<pre><code>sync.rooms.try <span class="o">&amp;</span>.join.each <span class="k">do</span> <span class="o">|</span>room_id, room<span class="o">|</span>
-  room.timeline.events.each <span class="k">do</span> <span class="o">|</span>event<span class="o">|</span>
-    <span class="k">case</span> event
-    <span class="k">when</span> <span class="t">Caridina</span><span class="t">::</span><span class="t">Events</span><span class="t">::</span><span class="t">Member</span>
-      <span class="c"># someone&#39;s membership changed</span>
-    <span class="k">when</span> <span class="t">Caridina</span><span class="t">::</span> <span class="t">Events</span><span class="t">::</span><span class="t">PowerLevels</span>
-      <span class="c"># some authorization changed</span>
-    <span class="k">when</span> <span class="t">Caridina</span><span class="t">::</span><span class="t">Events</span><span class="t">::</span><span class="t">Messages</span>
-      <span class="c"># someone talked</span>
-    <span class="k">else</span>
-      <span class="c"># unknown event</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre>
+<pre><code class="language-Crystal">sync.rooms.try &.join.each do |room_id, room|
+  room.timeline.events.each do |event|
+    case event
+    when Caridina::Events::Member
+      # someone's membership changed
+    when Caridina:: Events::PowerLevels
+      # some authorization changed
+    when Caridina::Events::Messages
+      # someone talked
+    else
+      # unknown event
+    end
+  end
+end</code></pre>
 
 <p>Sometimes the event's content can be polymorphic too.
 That is especially the case for message events.
@@ -590,12 +595,12 @@ You usually do not need to worry about crafting the event to send.</p>
 <blockquote>:warning: This part is in a very early stage.
 > Currently only a few methods are provided.</blockquote>
 
-<pre><code><span class="c"># join a room</span>
-conn.join(<span class="s">&quot;!room_id:matrix.org&quot;</span>)
-<span class="c"># send a message</span>
-event_id <span class="o">=</span> conn.send_message(<span class="s">&quot;!room_id:matrix.org&quot;</span>, <span class="s">&quot;Hello, wurld!&quot;</span>)
-<span class="c"># edit a message</span>
-conn.edit_message(<span class="s">&quot;!room_id:matrix.org&quot;</span>, <span class="s">&quot;Hello, world!&quot;</span>))</code></pre>
+<pre><code class="language-Crystal"># join a room
+conn.join("!room_id:matrix.org")
+# send a message
+event_id = conn.send_message("!room_id:matrix.org", "Hello, wurld!")
+# edit a message
+conn.edit_message("!room_id:matrix.org", "Hello, world!"))</code></pre>
 
 <h2><a id="development" class="anchor" href="#development">
   <svg class="octicon-link" aria-hidden="true">
