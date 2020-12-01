@@ -75,9 +75,8 @@ syncer.process_response(sync)
 
 ### Read event
 
-If you don't use the `Syncer`, most of the events you will see in the sync response
-will be `Caridina::Events::Event` objects. You need to restrict the type of an event
-object to access all its fields.
+The events in the sync response are `Caridina::Events::Event` objects.
+You need to restrict the type of an event object to access all its fields.
 
 ```Crystal
 sync.rooms.try &.join.each do |room_id, room|
@@ -96,13 +95,17 @@ sync.rooms.try &.join.each do |room_id, room|
 end
 ```
 
+If you use the `Syncer` object you also get an `Event` object, but you can just
+restrict its type with `.as` without using a case, as you known to which type
+you were listening too (if you don't, something is weird).
+
 Sometimes the event's content can be polymorphic too.
 That is especially the case for message events.
 By using again a `case` clause you can restrict its type to access all its fields.
 
 ### Send events
 
-Their is not a single method to send an event.
+There is not a single method to send an event.
 Instead this library provides a set of methods that correspond to different
 actions you may want to do.
 You usually do not need to worry about crafting the event to send.
