@@ -32,7 +32,7 @@ module Caridina::Responses
     struct InviteState
       include JSON::Serializable
 
-      getter events : Array(Events::Member::StrippedState)
+      getter events : Array(Events::StrippedState)
     end
 
     getter next_batch : String

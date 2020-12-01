@@ -65,32 +65,6 @@ module Caridina::Events
       getter invite_room_state : Array(StrippedState)?
     end
 
-    struct StrippedState
-      include JSON::Serializable
-      include JSON::Serializable::Unmapped
-
-      getter state_key : String
-      getter type : String
-      getter sender : String
-
-      def content : Event::Content
-        json = @json_unmapped["content"].to_json
-
-        {% begin %}
-          case type
-            {% for subclass in StateEvent.subclasses %}
-              {% if subclass.annotation(Type) %}
-                when {{ subclass.annotation(Type)[0] }}
-                  {{subclass.id}}::Content.from_json(json)
-              {% end %}
-            {% end %}
-          else
-            Unknown::Content.from_json(json)
-          end
-        {% end %}
-      end
-    end
-
     class Content < Event::Content
       getter avatar_url : String?
       getter displayname : String?
@@ -121,6 +95,42 @@ module Caridina::Events
       getter users = Hash(String, UInt8).new
       getter users_default = 0_i8
       getter notifications : Notifications?
+    end
+  end
+
+  # This event represents a StrippedState event.
+  #
+  # It is used in `Member` event and in `Responses::Sync` in invited rooms's state.
+  # It is actually a state event, but it does not inherit from `StateEvent` as
+  # some fields are not presents.
+  #
+  # This type is used to represents many distinct stripped state events.
+  # To distinguish them you must check the `#content`'s type.
+  class StrippedState < Event
+    include JSON::Serializable::Unmapped
+
+    getter state_key : String
+    getter sender : String
+
+    # "room_id" is not set in events returned from the sync API, so we need to
+    # set it up ourself.
+    property room_id : String?
+
+    def content #: Event::Content
+      json = @json_unmapped["content"].to_json
+
+      {% begin %}
+        case type
+          {% for subclass in StateEvent.subclasses %}
+            {% if subclass.annotation(Type) %}
+              when {{ subclass.annotation(Type)[0] }}
+                {{subclass.id}}::Content.from_json(json)
+            {% end %}
+          {% end %}
+        else
+          Unknown::Content.from_json(json)
+        end
+      {% end %}
     end
   end
 end

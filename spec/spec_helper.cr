@@ -47,7 +47,7 @@ SYNC = %(
                 "content": {
                   "membership": "join",
                   "avatar_url": "mxc://example.org/SEsfnsuifSDFSSEF",
-                  "displayname": "Alice Margatroid"
+                  "displayname": "Alice Margatroid State"
                 },
                 "type": "m.room.member",
                 "event_id": "$143273582443PhrSn:example.org",
@@ -67,7 +67,7 @@ SYNC = %(
                 "content": {
                   "membership": "join",
                   "avatar_url": "mxc://example.org/SEsfnsuifSDFSSEF",
-                  "displayname": "Alice Margatroid"
+                  "displayname": "Alice Margatroid Timeline"
                 },
                 "type": "m.room.member",
                 "event_id": "$143273582443PhrSn:example.org",

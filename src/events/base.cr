@@ -47,10 +47,13 @@ module Caridina::Events
 
     getter type : String
 
+    # Automatically define a getter "content" if the subclass does not define one.
     macro inherited
-      {% if !@type.abstract? && !@type.has_method?("content") %}
-        getter content : Content
-      {% end %}
+      macro finished
+        \{% if !@type.abstract? && !@type.has_method?("content") %}
+          getter content : Content
+        \{% end %}
+      end
     end
   end
 
@@ -58,6 +61,6 @@ module Caridina::Events
     class Content < Event::Content
     end
 
-    getter content : Content?
+    getter content : Nil = nil
   end
 end
