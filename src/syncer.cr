@@ -49,12 +49,18 @@ class Caridina::Syncer
     end
   end
 
-  def on(event_type : Events::Event.class, source = Source::All, &block : EventListener) : Nil
-    if !@listeners.has_key?(event_type)
-      @listeners[event_type] = Array(Tuple(EventListener, Source)).new
-    end
+  def on(event_type : Events::Event.class, source = Source::All, &listener : EventListener) : Nil
+    on(event_type, source, listener)
+  end
 
-    @listeners[event_type] << {block, source}
+  def on(event_type : Events::Event.class, source = Source::All, listener : EventListener? = nil) : Nil
+    if !listener.nil?
+      if !@listeners.has_key?(event_type)
+        @listeners[event_type] = Array(Tuple(EventListener, Source)).new
+      end
+
+      @listeners[event_type] << {listener, source}
+    end
   end
 
   private def dispatch(event, event_source) : Nil

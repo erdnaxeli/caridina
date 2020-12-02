@@ -61,6 +61,6 @@ module Caridina::Events
     class Content < Event::Content
     end
 
-    getter content : Nil = nil
+    getter content : Content? = nil
   end
 end

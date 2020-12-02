@@ -2,7 +2,23 @@ require "../src/syncer"
 
 require "./spec_helper"
 
+def listener(event)
+  puts event
+end
+
 describe Caridina::Syncer do
+  it "accepts blocks" do
+    syncer = Caridina::Syncer.new
+    syncer.on(Caridina::Events::Message) do |event|
+      puts event
+    end
+  end
+
+  it "accepts proc" do
+    syncer = Caridina::Syncer.new
+    syncer.on(Caridina::Events::Message, ->listener(Caridina::Events::Event))
+  end
+
   it "sends events to listeners without source" do
     received_event = nil
     calls = 0

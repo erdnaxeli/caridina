@@ -116,7 +116,7 @@ module Caridina::Events
     # set it up ourself.
     property room_id : String?
 
-    def content #: Event::Content
+    def content : Event::Content
       json = @json_unmapped["content"].to_json
 
       {% begin %}

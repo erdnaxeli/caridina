@@ -1,7 +1,6 @@
 require "spec"
 require "../src/caridina"
 
-
 SYNC = %(
   {
     "next_batch": "s72595_4483_1934",
