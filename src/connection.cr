@@ -3,6 +3,7 @@ require "json"
 
 require "./events"
 require "./errors"
+require "./modules/*"
 require "./responses/*"
 
 module Caridina
@@ -20,6 +21,7 @@ module Caridina
 
   class ConnectionImpl
     include Connection
+    include Modules::Receipts
 
     Log = Caridina::Log.for(self)
 
