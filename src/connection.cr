@@ -22,6 +22,7 @@ module Caridina
   class ConnectionImpl
     include Connection
     include Modules::Receipts
+    include Modules::Typing
 
     Log = Caridina::Log.for(self)
 
