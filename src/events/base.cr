@@ -30,8 +30,8 @@ module Caridina::Events
     struct RelatesTo
       include JSON::Serializable
 
-      getter rel_type : String
-      getter event_id : String
+      getter rel_type : String?
+      getter event_id : String?
 
       def initialize(@rel_type, @event_id)
       end

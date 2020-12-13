@@ -4,7 +4,7 @@ module Caridina::Modules::Typing
     put(
       "/rooms/#{room_id}/typing/#{@user_id}",
       data: {
-        typing: typing,
+        typing:  typing,
         timeout: timeout,
       }
     )
