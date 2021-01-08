@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Crystal Docs 0.34.0">
-<meta name="crystal_docs.project_version" content="main-dev">
+<meta name="crystal_docs.project_version" content="main">
 <meta name="crystal_docs.project_name" content="caridina">
 
 
@@ -18,7 +18,7 @@
 </svg>
 
   <meta id="repository-name" content="caridina">
-  <title>caridina main-dev</title>
+  <title>caridina main</title>
   <script type="text/javascript">
   CrystalDocs.base_path = "";
   </script>
@@ -39,7 +39,7 @@
       </h1>
 
       <span class="project-version">
-        main-dev
+        main
       </span>
     </div>
   </div>
@@ -366,6 +366,36 @@
       
     </li>
   
+  <li class="parent " data-id="caridina/Caridina/Modules" data-name="caridina::modules">
+      <a href="Caridina/Modules.html">Modules</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="caridina/Caridina/Modules/Receipts" data-name="caridina::modules::receipts">
+      <a href="Caridina/Modules/Receipts.html">Receipts</a>
+      
+        <ul>
+  
+  <li class=" " data-id="caridina/Caridina/Modules/Receipts/Type" data-name="caridina::modules::receipts::type">
+      <a href="Caridina/Modules/Receipts/Type.html">Type</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Modules/Typing" data-name="caridina::modules::typing">
+      <a href="Caridina/Modules/Typing.html">Typing</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class="parent " data-id="caridina/Caridina/Responses" data-name="caridina::responses">
       <a href="Caridina/Responses.html">Responses</a>
       
@@ -467,7 +497,7 @@
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
-</a>caridina</h1>
+</a>caridina 🦐</h1>
 
 <p>A <a href="https://matrix.org" target="_blank">Matrix</a> client library written in <a href="https://crystal-lang.org" target="_blank">Crystal</a>.</p>
 
@@ -498,6 +528,8 @@
     <use href="#octicon-link"/>
   </svg>
 </a>Usage</h2>
+
+<p>The API documentation is available <a href="https://erdnaxeli.github.io/caridina/Caridina/ConnectionImpl.html" target="_blank">here</a>.</p>
 
 <h3><a id="connecting" class="anchor" href="#connecting">
   <svg class="octicon-link" aria-hidden="true">
@@ -543,6 +575,7 @@ understandable), we provide you a <a href="src/syncer.cr" target="_blank">Caridi
 
 <pre><code class="language-Crystal">syncer = Caridina::Syncer.new
 syncer.on(Caridina::Events::Message) do |event|
+  event = event.as(Caridina::Events::Message)
   # TODO: actually do something
 end
 
@@ -558,16 +591,15 @@ syncer.process_response(sync)</code></pre>
   </svg>
 </a>Read event</h3>
 
-<p>If you don't use the <code>Syncer</code>, most of the events you will see in the sync response
-will be <code><a href="Caridina/Events/Event.html">Caridina::Events::Event</a></code> objects. You need to restrict the type of an event
-object to access all its fields.</p>
+<p>The events in the sync response are all <code><a href="Caridina/Events/Event.html">Caridina::Events::Event</a></code> objects.
+You need to restrict the type of an event object to access all its fields.</p>
 
 <pre><code class="language-Crystal">sync.rooms.try &.join.each do |room_id, room|
   room.timeline.events.each do |event|
     case event
     when Caridina::Events::Member
       # someone's membership changed
-    when Caridina:: Events::PowerLevels
+    when Caridina::Events::PowerLevels
       # some authorization changed
     when Caridina::Events::Messages
       # someone talked
@@ -579,7 +611,7 @@ end</code></pre>
 
 <p>Sometimes the event's content can be polymorphic too.
 That is especially the case for message events.
-By using again a <code>case</code> clause you can restrict its type to access all its fields.</p>
+By using again a <code>case</code> clause to <code>event.content</code> you can restrict its type to access all its fields.</p>
 
 <h3><a id="send-events" class="anchor" href="#send-events">
   <svg class="octicon-link" aria-hidden="true">
@@ -587,20 +619,29 @@ By using again a <code>case</code> clause you can restrict its type to access al
   </svg>
 </a>Send events</h3>
 
-<p>Their is not a single method to send an event.
+<p>There is not a single method to send an event.
 Instead this library provides a set of methods that correspond to different
 actions you may want to do.
 You usually do not need to worry about crafting the event to send.</p>
 
-<blockquote>:warning: This part is in a very early stage.
-> Currently only a few methods are provided.</blockquote>
+<blockquote>:warning: This part is in a early stage.
+> Only a few methods are currently provided.</blockquote>
 
 <pre><code class="language-Crystal"># join a room
 conn.join("!room_id:matrix.org")
 # send a message
-event_id = conn.send_message("!room_id:matrix.org", "Hello, wurld!")
+event_id = conn.send_message("!room_id:matrix.org", "Hello, world!")
 # edit a message
-conn.edit_message("!room_id:matrix.org", "Hello, world!"))</code></pre>
+conn.edit_message("!room_id:matrix.org", event_id, "Hello, world!")
+# send a read receipt
+conn.send_receipt("!room_id:matrix.org", "$event_id:matrix.org")
+# Use the typing notification as a loader
+conn.typing("!room_id:matrix.org") do
+  # Do some processing.
+  # While we are in the block, a typing notification will be shown on the given
+  # room.
+  conn.send_message("!room_id:matrix.org", "All done!")
+end</code></pre>
 
 <h2><a id="development" class="anchor" href="#development">
   <svg class="octicon-link" aria-hidden="true">
@@ -608,7 +649,7 @@ conn.edit_message("!room_id:matrix.org", "Hello, world!"))</code></pre>
   </svg>
 </a>Development</h2>
 
-<p>Install the depencies with <code>shards install</code>.</p>
+<p>Install the dependencies with <code>shards install</code>.</p>
 
 <ul><li><code>make test</code> runs the tests</li><li><code>make lint</code> runs the formater plus a linter</li></ul>
 

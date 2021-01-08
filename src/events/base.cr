@@ -5,8 +5,10 @@ module Caridina::Events
 
   # Base type representing an event.
   #
-  # It has a class method `#from_json` that can be used to deserialize an event.
-  #  You can then match the returned event type against known types.
+  # All types returned by the `Caridina::ConnectionImpl::Sync` method will be
+  # of this type.
+  # You can then match the returned event type against known types to be able
+  # to use all the event's field.
   #
   # If the event is unknown, it returns nil.
   abstract class Event
@@ -27,6 +29,9 @@ module Caridina::Events
       Unknown,
     )
 
+    # Represents a relation to another event.
+    #
+    # [Matrix API](https://matrix.org/docs/spec/client_server/r0.6.1#forming-relationships-between-events)
     struct RelatesTo
       include JSON::Serializable
 
@@ -40,14 +45,16 @@ module Caridina::Events
     abstract class Content
       include JSON::Serializable
 
-      # This implements MSC2674
+      # This implements MSC2674 (event relationships).
+      #
+      # [Matrix MSC](https://github.com/matrix-org/matrix-doc/pull/2674)
       @[JSON::Field(key: "m.relates_to")]
       getter relates_to : RelatesTo?
     end
 
     getter type : String
 
-    # Automatically define a getter "content" if the subclass does not define one.
+    # Automatically defines a getter "content" if the subclass does not define one.
     macro inherited
       macro finished
         \{% if !@type.abstract? && !@type.has_method?("content") %}
@@ -57,6 +64,9 @@ module Caridina::Events
     end
   end
 
+  # Represents an unknown event.
+  #
+  # The content will alway be nil.
   class Unknown < Event
     class Content < Event::Content
     end

@@ -1,4 +1,7 @@
 module Caridina::Events
+  # Represents a room event.
+  #
+  # [Matrix API](https://matrix.org/docs/spec/client_server/r0.6.1#room-events)
   abstract class RoomEvent < Event
     abstract struct UnsignedData
       include JSON::Serializable
@@ -10,8 +13,6 @@ module Caridina::Events
     getter event_id : String
     getter sender : String
     getter origin_server_ts : UInt64
-    # "room_id" is not set in events returned from the sync API, so we need to
-    # set it up ourself.
     property room_id : String?
 
     macro inherited
@@ -24,6 +25,9 @@ module Caridina::Events
     end
   end
 
+  # Represents a m.room.redaction event.
+  #
+  # [Matrix API](https://matrix.org/docs/spec/client_server/r0.6.1#m-room-redaction)
   @[Type("m.room.redaction")]
   class Redaction < RoomEvent
     class Content < Event::Content

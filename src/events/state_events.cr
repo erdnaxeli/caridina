@@ -1,8 +1,14 @@
 module Caridina::Events
+  # Represents a state event.
+  #
+  # [Matrix API](https://matrix.org/docs/spec/client_server/r0.6.1#state-event-fields)
   abstract class StateEvent < RoomEvent
     getter state_key : String
   end
 
+  # Represents a m.room.canonical_alias event.
+  #
+  # [Matrix API](https://matrix.org/docs/spec/client_server/r0.6.1#m-room-canonical-alias)
   @[Type("m.room.canonical_alias")]
   class CanonicalAlias < StateEvent
     class Content < Event::Content
@@ -11,6 +17,9 @@ module Caridina::Events
     end
   end
 
+  # Represents a m.room.create event.
+  #
+  # [Matrix API](https://matrix.org/docs/spec/client_server/r0.6.1#m-room-create)
   @[Type("m.room.create")]
   class Create < StateEvent
     struct PreviousRoom
@@ -29,6 +38,9 @@ module Caridina::Events
     end
   end
 
+  # Represents a m.room.join_rules event.
+  #
+  # [Matrix API](https://matrix.org/docs/spec/client_server/r0.6.1#m-room-join-rules)
   @[Type("m.room.join_rules")]
   class JoinRules < StateEvent
     enum JoinRule
@@ -43,6 +55,9 @@ module Caridina::Events
     end
   end
 
+  # Represents a m.room.member event.
+  #
+  # [Matrix API](https://matrix.org/docs/spec/client_server/r0.6.1#m-room-member)
   @[Type("m.room.member")]
   class Member < StateEvent
     enum Membership
@@ -76,6 +91,9 @@ module Caridina::Events
     getter unsigned : UnsignedData?
   end
 
+  # Represents a m.room.power_levels event.
+  #
+  # [Matrix API](https://matrix.org/docs/spec/client_server/r0.6.1#m-room-power-levels)
   @[Type("m.room.power_levels")]
   class PowerLevels < StateEvent
     struct Notifications
@@ -98,9 +116,9 @@ module Caridina::Events
     end
   end
 
-  # This event represents a StrippedState event.
+  # Represents a StrippedState event.
   #
-  # It is used in `Member` event and in `Responses::Sync` in invited rooms's state.
+  # It is used in `Member` event and in `Responses::Sync` in invited rooms' state.
   # It is actually a state event, but it does not inherit from `StateEvent` as
   # some fields are not presents.
   #
@@ -111,9 +129,6 @@ module Caridina::Events
 
     getter state_key : String
     getter sender : String
-
-    # "room_id" is not set in events returned from the sync API, so we need to
-    # set it up ourself.
     property room_id : String?
 
     def content : Event::Content

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Crystal Docs 0.34.0">
-<meta name="crystal_docs.project_version" content="main-dev">
+<meta name="crystal_docs.project_version" content="main">
 <meta name="crystal_docs.project_name" content="caridina">
 
 
@@ -18,7 +18,7 @@
 </svg>
 
   <meta id="repository-name" content="caridina">
-  <title>Caridina::Events::Event::RelatesTo - caridina main-dev</title>
+  <title>Caridina::Events::Event::RelatesTo - caridina main</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../../../";
   </script>
@@ -39,7 +39,7 @@
       </h1>
 
       <span class="project-version">
-        main-dev
+        main
       </span>
     </div>
   </div>
@@ -366,6 +366,36 @@
       
     </li>
   
+  <li class="parent " data-id="caridina/Caridina/Modules" data-name="caridina::modules">
+      <a href="../../../Caridina/Modules.html">Modules</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="caridina/Caridina/Modules/Receipts" data-name="caridina::modules::receipts">
+      <a href="../../../Caridina/Modules/Receipts.html">Receipts</a>
+      
+        <ul>
+  
+  <li class=" " data-id="caridina/Caridina/Modules/Receipts/Type" data-name="caridina::modules::receipts::type">
+      <a href="../../../Caridina/Modules/Receipts/Type.html">Type</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Modules/Typing" data-name="caridina::modules::typing">
+      <a href="../../../Caridina/Modules/Typing.html">Typing</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class="parent " data-id="caridina/Caridina/Responses" data-name="caridina::responses">
       <a href="../../../Caridina/Responses.html">Responses</a>
       
@@ -475,6 +505,19 @@
 
 
 
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>Represents a relation to another event.</p>
+
+<p><a href="https://matrix.org/docs/spec/client_server/r0.6.1#forming-relationships-between-events" target="_blank">Matrix API</a></p>
+
 
 
 
@@ -510,6 +553,13 @@
 </a>
     Defined in:
   </h2>
+  
+    
+      <a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/events/base.cr#L35" target="_blank">
+        events/base.cr
+      </a>
+    
+    <br/>
   
 
 
@@ -553,12 +603,12 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#event_id:String-instance-method" class="signature"><strong>#event_id</strong> : String</a>
+        <a href="#event_id:String?-instance-method" class="signature"><strong>#event_id</strong> : String?</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#rel_type:String-instance-method" class="signature"><strong>#rel_type</strong> : String</a>
+        <a href="#rel_type:String?-instance-method" class="signature"><strong>#rel_type</strong> : String?</a>
         
       </li>
     
@@ -633,6 +683,8 @@
       <br/>
       <div>
         
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/events/base.cr#L41" target="_blank">View source</a>]
+        
       </div>
     </div>
   
@@ -646,6 +698,8 @@
       
       <br/>
       <div>
+        
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/events/base.cr#L36" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -664,30 +718,34 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="event_id:String-instance-method">
+    <div class="entry-detail" id="event_id:String?-instance-method">
       <div class="signature">
         
-        def <strong>event_id</strong> : String
+        def <strong>event_id</strong> : String?
 
-        <a class="method-permalink" href="#event_id:String-instance-method">#</a>
+        <a class="method-permalink" href="#event_id:String?-instance-method">#</a>
       </div>
       
       <br/>
       <div>
+        
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/events/base.cr#L39" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="rel_type:String-instance-method">
+    <div class="entry-detail" id="rel_type:String?-instance-method">
       <div class="signature">
         
-        def <strong>rel_type</strong> : String
+        def <strong>rel_type</strong> : String?
 
-        <a class="method-permalink" href="#rel_type:String-instance-method">#</a>
+        <a class="method-permalink" href="#rel_type:String?-instance-method">#</a>
       </div>
       
       <br/>
       <div>
+        
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/events/base.cr#L38" target="_blank">View source</a>]
         
       </div>
     </div>

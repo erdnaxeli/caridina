@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Crystal Docs 0.34.0">
-<meta name="crystal_docs.project_version" content="main-dev">
+<meta name="crystal_docs.project_version" content="main">
 <meta name="crystal_docs.project_name" content="caridina">
 
 
@@ -18,7 +18,7 @@
 </svg>
 
   <meta id="repository-name" content="caridina">
-  <title>Caridina::Events::Message::Content - caridina main-dev</title>
+  <title>Caridina::Events::Message::Content - caridina main</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../../../";
   </script>
@@ -39,7 +39,7 @@
       </h1>
 
       <span class="project-version">
-        main-dev
+        main
       </span>
     </div>
   </div>
@@ -366,6 +366,36 @@
       
     </li>
   
+  <li class="parent " data-id="caridina/Caridina/Modules" data-name="caridina::modules">
+      <a href="../../../Caridina/Modules.html">Modules</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="caridina/Caridina/Modules/Receipts" data-name="caridina::modules::receipts">
+      <a href="../../../Caridina/Modules/Receipts.html">Receipts</a>
+      
+        <ul>
+  
+  <li class=" " data-id="caridina/Caridina/Modules/Receipts/Type" data-name="caridina::modules::receipts::type">
+      <a href="../../../Caridina/Modules/Receipts/Type.html">Type</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Modules/Typing" data-name="caridina::modules::typing">
+      <a href="../../../Caridina/Modules/Typing.html">Typing</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class="parent " data-id="caridina/Caridina/Responses" data-name="caridina::responses">
       <a href="../../../Caridina/Responses.html">Responses</a>
       
@@ -475,6 +505,37 @@
 
 
 
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>Represents a m.room.message event's content.</p>
+
+<p>This event's content can have different fields according to its field
+<code><a href="../../../Caridina/Events/Message/Content.html#msgtype:String-instance-method">#msgtype</a></code>.
+Each available content is represent by its own type.
+To know which message event you are dealing with, you can use a case clause
+over the content's type.</p>
+
+<pre><code><span class="k">case</span> event.content
+<span class="k">when</span> <span class="t">Caridina</span><span class="t">::</span><span class="t">Events</span><span class="t">::</span><span class="t">Message</span><span class="t">::</span><span class="t">Text</span>
+  <span class="c"># handle a message</span>
+<span class="k">when</span> <span class="t">Caridina</span><span class="t">::</span><span class="t">Events</span><span class="t">::</span><span class="t">Message</span><span class="t">::</span><span class="t">MSC2676</span><span class="t">::</span><span class="t">Text</span>
+  <span class="c"># handle a message edit</span>
+<span class="k">when</span> <span class="t">Caridina</span><span class="t">::</span><span class="t">Events</span><span class="t">::</span><span class="t">Message</span><span class="t">::</span><span class="t">Unknown</span>
+  <span class="c"># Unknown message type, but you can still inspect `event.content.body` and</span>
+  <span class="c"># `event.content.msgtype`.</span>
+<span class="k">else</span>
+  <span class="c"># fallback</span>
+<span class="k">end</span></code></pre>
+
+<p><a href="https://matrix.org/docs/spec/client_server/r0.6.1#m-room-message" target="_blank">Matrix API</a></p>
+
 
 
 
@@ -513,6 +574,13 @@
     Defined in:
   </h2>
   
+    
+      <a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/events/modules/instant_messaging.cr#L30" target="_blank">
+        events/modules/instant_messaging.cr
+      </a>
+    
+    <br/>
+  
 
 
 
@@ -530,6 +598,8 @@
     
       <li class="entry-summary">
         <a href="#new(pull:JSON::PullParser)-class-method" class="signature"><strong>.new</strong>(pull : JSON::PullParser)</a>
+        
+          <div class="summary"><p>Represents a m.room.message event's content.</p></div>
         
       </li>
     
@@ -645,8 +715,35 @@
         <a class="method-permalink" href="#new(pull:JSON::PullParser)-class-method">#</a>
       </div>
       
+        <div class="doc">
+          
+          <p>Represents a m.room.message event's content.</p>
+
+<p>This event's content can have different fields according to its field
+<code><a href="../../../Caridina/Events/Message/Content.html#msgtype:String-instance-method">#msgtype</a></code>.
+Each available content is represent by its own type.
+To know which message event you are dealing with, you can use a case clause
+over the content's type.</p>
+
+<pre><code><span class="k">case</span> event.content
+<span class="k">when</span> <span class="t">Caridina</span><span class="t">::</span><span class="t">Events</span><span class="t">::</span><span class="t">Message</span><span class="t">::</span><span class="t">Text</span>
+  <span class="c"># handle a message</span>
+<span class="k">when</span> <span class="t">Caridina</span><span class="t">::</span><span class="t">Events</span><span class="t">::</span><span class="t">Message</span><span class="t">::</span><span class="t">MSC2676</span><span class="t">::</span><span class="t">Text</span>
+  <span class="c"># handle a message edit</span>
+<span class="k">when</span> <span class="t">Caridina</span><span class="t">::</span><span class="t">Events</span><span class="t">::</span><span class="t">Message</span><span class="t">::</span><span class="t">Unknown</span>
+  <span class="c"># Unknown message type, but you can still inspect `event.content.body` and</span>
+  <span class="c"># `event.content.msgtype`.</span>
+<span class="k">else</span>
+  <span class="c"># fallback</span>
+<span class="k">end</span></code></pre>
+
+<p><a href="https://matrix.org/docs/spec/client_server/r0.6.1#m-room-message" target="_blank">Matrix API</a></p>
+        </div>
+      
       <br/>
       <div>
+        
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/events/modules/instant_messaging.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -676,6 +773,8 @@
       <br/>
       <div>
         
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/events/modules/instant_messaging.cr#L43" target="_blank">View source</a>]
+        
       </div>
     </div>
   
@@ -689,6 +788,8 @@
       
       <br/>
       <div>
+        
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/events/modules/instant_messaging.cr#L44" target="_blank">View source</a>]
         
       </div>
     </div>

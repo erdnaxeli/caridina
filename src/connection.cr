@@ -7,18 +7,29 @@ require "./modules/*"
 require "./responses/*"
 
 module Caridina
-  # Interface to represent a Matrix client.
+  # Interface that represents a Matrix client.
   module Connection
     class ExecError < Exception
     end
 
     abstract def edit_message(room_id : String, event_id : String, message : String, html : String? = nil) : Nil
     abstract def send_message(room_id : String, message : String, html : String? = nil) : String
+    # :nodoc:
     abstract def get(route, **options)
+    # :nodoc:
     abstract def post(route, data = nil, **options)
+    # :nodoc:
     abstract def put(route, data = nil)
   end
 
+  # Implements a connection.
+  #
+  # This is the main entrypoint for this library.
+  # You will find here all methods to interact with the Matrix API.
+  #
+  # Those methods handle retrying when the connection is
+  # being rate limited.
+  # If there is another error, an `ExecError` while be returned.
   class ConnectionImpl
     include Connection
     include Modules::Receipts
@@ -28,8 +39,13 @@ module Caridina
 
     @syncing = false
     @tx_id = 0
+
+    # Returns the connected account's user_id.
     getter user_id : String = ""
 
+    # Logs in using to a given homeserver and returns the access token.
+    #
+    # [Matrix API](https://matrix.org/docs/spec/client_server/r0.6.1#post-matrix-client-r0-login)
     def self.login(hs_url : String, user_id : String, password : String) : String
       data = {
         type:       "m.login.password",
@@ -53,6 +69,7 @@ module Caridina
       data["access_token"]
     end
 
+    # Create a new connection object using an access_token.
     def initialize(@hs_url : String, @access_token : String)
       @hs_url = @hs_url.gsub(%r{https?://}, "")
 
@@ -63,22 +80,38 @@ module Caridina
       Log.info { "User's id is #{@user_id}" }
     end
 
+    # Creates a sync filter and returns its id.
+    #
+    # The *filter* parameter must be a JSON serializable object.
+    #
+    # TODO: This should be implement with a proper model object.
+    #
+    # [Matrix API](https://matrix.org/docs/spec/client_server/r0.6.1#post-matrix-client-r0-user-userid-filter)
     def create_filter(filter) : String
       response = post("/user/#{@user_id}/filter", filter)
       response = Responses::Filter.from_json(response)
       response.filter_id
     end
 
+    # Joins a room.
+    #
+    # [Matrix API](https://matrix.org/docs/spec/client_server/r0.6.1#post-matrix-client-r0-rooms-roomid-join)
     def join(room_id) : Nil
       post("/rooms/#{room_id}/join")
     end
 
+    # Edits a message.
+    #
+    # Only `m.text` messages are supported for now.
     def edit_message(room_id : String, event_id : String, message : String, html : String? = nil) : Nil
       tx_id = get_tx_id
       data = Events::Message::MSC2676::Text.new(message, html, event_id)
       put("/rooms/#{room_id}/send/m.room.message/#{tx_id}", data)
     end
 
+    # Sends a message to a given room.
+    #
+    # Only `m.text` messages are supported for now.
     def send_message(room_id : String, message : String, html : String? = nil) : String
       tx_id = get_tx_id
       payload = Events::Message::Text.new(message, html)
@@ -87,7 +120,22 @@ module Caridina
       Responses::Send.from_json(data).event_id
     end
 
-    def sync(channel)
+    # Starts syncing.
+    #
+    # This method starts a new fiber wich will run sync queries, and send received
+    # events in *channel*.
+    #
+    # It uses a filter to limit the received events to supported ones.
+    #
+    # When called, it will first do an inital sync.
+    # This first sync may return events you already seen in a previous sync.
+    # You should handle this in your code, either by skipping the first sync or
+    # by storing the id of the events you processed.
+    #
+    # TODO: accept an *next_batch* parameter to skip the initial sync.
+    #
+    # [Matrix API](https://matrix.org/docs/spec/client_server/r0.6.1#get-matrix-client-r0-sync)
+    def sync(channel : Channel(Events::Sync))
       if @syncing
         raise Exception.new("Already syncing")
       end
@@ -130,20 +178,28 @@ module Caridina
       end
     end
 
+    # Returns the connected account's user_id.
+    #
+    # You probably should use `user_id` which already store that information.
+    #
+    # [Matrix API](https://matrix.org/docs/spec/client_server/r0.6.1#get-matrix-client-r0-account-whoami)
     def whoami : String
       response = get("/account/whoami")
       response = Responses::WhoAmI.from_json(response)
       response.user_id
     end
 
+    # :nodoc:
     def get(route, **options)
       exec "GET", route, **options
     end
 
+    # :nodoc:
     def post(route, data = nil, **options)
       exec "POST", route, **options, body: data
     end
 
+    # :nodoc:
     def put(route, data = nil)
       exec "PUT", route, body: data
     end

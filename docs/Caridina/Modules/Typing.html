@@ -18,7 +18,7 @@
 </svg>
 
   <meta id="repository-name" content="caridina">
-  <title>Caridina::Events::Member - caridina main</title>
+  <title>Caridina::Modules::Typing - caridina main</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../../";
   </script>
@@ -96,7 +96,7 @@
       
     </li>
   
-  <li class="parent open current" data-id="caridina/Caridina/Events" data-name="caridina::events">
+  <li class="parent " data-id="caridina/Caridina/Events" data-name="caridina::events">
       <a href="../../Caridina/Events.html">Events</a>
       
         <ul>
@@ -191,7 +191,7 @@
       
     </li>
   
-  <li class="parent open current" data-id="caridina/Caridina/Events/Member" data-name="caridina::events::member">
+  <li class="parent " data-id="caridina/Caridina/Events/Member" data-name="caridina::events::member">
       <a href="../../Caridina/Events/Member.html">Member</a>
       
         <ul>
@@ -366,7 +366,7 @@
       
     </li>
   
-  <li class="parent " data-id="caridina/Caridina/Modules" data-name="caridina::modules">
+  <li class="parent open current" data-id="caridina/Caridina/Modules" data-name="caridina::modules">
       <a href="../../Caridina/Modules.html">Modules</a>
       
         <ul>
@@ -386,7 +386,7 @@
       
     </li>
   
-  <li class=" " data-id="caridina/Caridina/Modules/Typing" data-name="caridina::modules::typing">
+  <li class=" current" data-id="caridina/Caridina/Modules/Typing" data-name="caridina::modules::typing">
       <a href="../../Caridina/Modules/Typing.html">Typing</a>
       
     </li>
@@ -495,38 +495,37 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">class</span> Caridina::Events::Member
+  <span class="kind">module</span> Caridina::Modules::Typing
 
 </h1>
 
 
-  <ul class="superclass-hierarchy"><li class="superclass"><a href="../../Caridina/Events/Member.html">Caridina::Events::Member</a></li><li class="superclass"><a href="../../Caridina/Events/StateEvent.html">Caridina::Events::StateEvent</a></li><li class="superclass"><a href="../../Caridina/Events/RoomEvent.html">Caridina::Events::RoomEvent</a></li><li class="superclass"><a href="../../Caridina/Events/Event.html">Caridina::Events::Event</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+
+
+
+
+
 
 
 
 
   <h2>
-    <a id="overview" class="anchor" href="#overview">
+    <a id="direct-including-types" class="anchor" href="#direct-including-types">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>
-    Overview
+    Direct including types
   </h2>
-
-  <p>Represents a m.room.member event.</p>
-
-<p><a href="https://matrix.org/docs/spec/client_server/r0.6.1#m-room-member" target="_blank">Matrix API</a></p>
-
-
-
-
-
-
-
-
-
-
+  <ul class="other-types-list">
+    
+      <li class="other-type"><a href="../../Caridina/ConnectionImpl.html">Caridina::ConnectionImpl</a></li>
+    
+  </ul>
 
 
 
@@ -541,8 +540,8 @@
   </h2>
   
     
-      <a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/events/state_events.cr#L62" target="_blank">
-        events/state_events.cr
+      <a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/modules/typing.cr#L1" target="_blank">
+        modules/typing.cr
       </a>
     
     <br/>
@@ -551,23 +550,6 @@
 
 
 
-
-  <h2>
-    <a id="constructors" class="anchor" href="#constructors">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Constructors
-  </h2>
-  <ul class="list-summary">
-    
-      <li class="entry-summary">
-        <a href="#new(pull:JSON::PullParser)-class-method" class="signature"><strong>.new</strong>(pull : JSON::PullParser)</a>
-        
-      </li>
-    
-  </ul>
 
 
 
@@ -584,12 +566,16 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#content:Content-instance-method" class="signature"><strong>#content</strong> : Content</a>
+        <a href="#send_typing(room_id:String,timeout=3000,typing=true):Nil-instance-method" class="signature"><strong>#send_typing</strong>(room_id : String, timeout = <span class="n">3000</span>, typing = <span class="n">true</span>) : Nil</a>
+        
+          <div class="summary"><p>Sends a typing notification</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#unsigned:UnsignedData?-instance-method" class="signature"><strong>#unsigned</strong> : UnsignedData?</a>
+        <a href="#typing(room_id:String,&)-instance-method" class="signature"><strong>#typing</strong>(room_id : String, &)</a>
+        
+          <div class="summary"><p>Keeps sending a typing notification while the block runs.</p></div>
         
       </li>
     
@@ -601,168 +587,8 @@
 
 <div class="methods-inherited">
   
-    
-
-  <h3>Instance methods inherited from class <code><a href="../../Caridina/Events/StateEvent.html">Caridina::Events::StateEvent</a></code></h3>
-  
-  
-    <a href="../../Caridina/Events/StateEvent.html#state_key:String-instance-method" class="tooltip">
-      <span>state_key : String</span>
-    state_key</a>
-    
-  
-
-
-    
-
-  <h3>Constructor methods inherited from class <code><a href="../../Caridina/Events/StateEvent.html">Caridina::Events::StateEvent</a></code></h3>
-  
-  
-    <a href="../../Caridina/Events/StateEvent.html#new(pull:JSON::PullParser)-class-method" class="tooltip">
-      <span>new(pull : JSON::PullParser)</span>
-    new</a>
-    
-  
-
-
-    
-
-
-  
-    
-
-  <h3>Instance methods inherited from class <code><a href="../../Caridina/Events/RoomEvent.html">Caridina::Events::RoomEvent</a></code></h3>
-  
-  
-    <a href="../../Caridina/Events/RoomEvent.html#event_id:String-instance-method" class="tooltip">
-      <span>event_id : String</span>
-    event_id</a>, 
-    
-  
-    <a href="../../Caridina/Events/RoomEvent.html#origin_server_ts:UInt64-instance-method" class="tooltip">
-      <span>origin_server_ts : UInt64</span>
-    origin_server_ts</a>, 
-    
-  
-    <a href="../../Caridina/Events/RoomEvent.html#room_id:String?-instance-method" class="tooltip">
-      <span>room_id : String?</span>
-    room_id</a>, 
-    
-  
-    <a href="../../Caridina/Events/RoomEvent.html#room_id=(room_id:String?)-instance-method" class="tooltip">
-      <span>room_id=(room_id : String?)</span>
-    room_id=</a>, 
-    
-  
-    <a href="../../Caridina/Events/RoomEvent.html#sender:String-instance-method" class="tooltip">
-      <span>sender : String</span>
-    sender</a>
-    
-  
-
-
-    
-
-  <h3>Constructor methods inherited from class <code><a href="../../Caridina/Events/RoomEvent.html">Caridina::Events::RoomEvent</a></code></h3>
-  
-  
-    <a href="../../Caridina/Events/RoomEvent.html#new(pull:JSON::PullParser)-class-method" class="tooltip">
-      <span>new(pull : JSON::PullParser)</span>
-    new</a>
-    
-  
-
-
-    
-
-
-  
-    
-
-  <h3>Instance methods inherited from class <code><a href="../../Caridina/Events/Event.html">Caridina::Events::Event</a></code></h3>
-  
-  
-    <a href="../../Caridina/Events/Event.html#type:String-instance-method" class="tooltip">
-      <span>type : String</span>
-    type</a>
-    
-  
-
-
-    
-
-  <h3>Constructor methods inherited from class <code><a href="../../Caridina/Events/Event.html">Caridina::Events::Event</a></code></h3>
-  
-  
-    <a href="../../Caridina/Events/Event.html#new(pull:JSON::PullParser)-class-method" class="tooltip">
-      <span>new(pull : JSON::PullParser)</span>
-    new</a>
-    
-  
-
-
-    
-
-
-  
-    
-
-
-    
-
-
-    
-
-
-  
-    
-
-
-    
-
-
-    
-
-
-  
-    
-
-
-    
-
-
-    
-
-
-  
 </div>
 
-
-  <h2>
-    <a id="constructor-detail" class="anchor" href="#constructor-detail">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Constructor Detail
-  </h2>
-  
-    <div class="entry-detail" id="new(pull:JSON::PullParser)-class-method">
-      <div class="signature">
-        
-        def self.<strong>new</strong>(pull : JSON::PullParser)
-
-        <a class="method-permalink" href="#new(pull:JSON::PullParser)-class-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/events/state_events.cr#L62" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
 
 
 
@@ -777,32 +603,49 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="content:Content-instance-method">
+    <div class="entry-detail" id="send_typing(room_id:String,timeout=3000,typing=true):Nil-instance-method">
       <div class="signature">
         
-        def <strong>content</strong> : <a href="../../Caridina/Events/Member/Content.html">Content</a>
+        def <strong>send_typing</strong>(room_id : String, timeout = <span class="n">3000</span>, typing = <span class="n">true</span>) : Nil
 
-        <a class="method-permalink" href="#content:Content-instance-method">#</a>
+        <a class="method-permalink" href="#send_typing(room_id:String,timeout=3000,typing=true):Nil-instance-method">#</a>
       </div>
+      
+        <div class="doc">
+          
+          <p>Sends a typing notification</p>
+
+<p><a href="https://matrix.org/docs/spec/client_server/r0.6.1#put-matrix-client-r0-rooms-roomid-typing-userid" target="_blank">Matrix API</a></p>
+        </div>
       
       <br/>
       <div>
+        
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/modules/typing.cr#L5" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="unsigned:UnsignedData?-instance-method">
+    <div class="entry-detail" id="typing(room_id:String,&)-instance-method">
       <div class="signature">
         
-        def <strong>unsigned</strong> : <a href="../../Caridina/Events/Member/UnsignedData.html">UnsignedData</a>?
+        def <strong>typing</strong>(room_id : String, &)
 
-        <a class="method-permalink" href="#unsigned:UnsignedData?-instance-method">#</a>
+        <a class="method-permalink" href="#typing(room_id:String,&)-instance-method">#</a>
       </div>
+      
+        <div class="doc">
+          
+          <p>Keeps sending a typing notification while the block runs.</p>
+
+<p>The notification is sent every 30 seconds.
+Once the block ends, it sends a last call to stop the notification typing.</p>
+        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/events/state_events.cr#L91" target="_blank">View source</a>]
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/modules/typing.cr#L19" target="_blank">View source</a>]
         
       </div>
     </div>

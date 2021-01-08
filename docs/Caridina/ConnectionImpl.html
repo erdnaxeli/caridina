@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Crystal Docs 0.34.0">
-<meta name="crystal_docs.project_version" content="main-dev">
+<meta name="crystal_docs.project_version" content="main">
 <meta name="crystal_docs.project_name" content="caridina">
 
 
@@ -18,7 +18,7 @@
 </svg>
 
   <meta id="repository-name" content="caridina">
-  <title>Caridina::ConnectionImpl - caridina main-dev</title>
+  <title>Caridina::ConnectionImpl - caridina main</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -39,7 +39,7 @@
       </h1>
 
       <span class="project-version">
-        main-dev
+        main
       </span>
     </div>
   </div>
@@ -366,6 +366,36 @@
       
     </li>
   
+  <li class="parent " data-id="caridina/Caridina/Modules" data-name="caridina::modules">
+      <a href="../Caridina/Modules.html">Modules</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="caridina/Caridina/Modules/Receipts" data-name="caridina::modules::receipts">
+      <a href="../Caridina/Modules/Receipts.html">Receipts</a>
+      
+        <ul>
+  
+  <li class=" " data-id="caridina/Caridina/Modules/Receipts/Type" data-name="caridina::modules::receipts::type">
+      <a href="../Caridina/Modules/Receipts/Type.html">Type</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Modules/Typing" data-name="caridina::modules::typing">
+      <a href="../Caridina/Modules/Typing.html">Typing</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class="parent " data-id="caridina/Caridina/Responses" data-name="caridina::responses">
       <a href="../Caridina/Responses.html">Responses</a>
       
@@ -475,6 +505,24 @@
 
 
 
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>Implements a connection.</p>
+
+<p>This is the main entrypoint for this library.
+You will find here all methods to interact with the Matrix API.</p>
+
+<p>Those methods handle retrying when the connection is
+being rate limited.
+If there is another error, an <code><a href="../Caridina/Connection/ExecError.html">ExecError</a></code> while be returned.</p>
+
 
 
 
@@ -490,6 +538,10 @@
   <ul class="other-types-list">
     
       <li class="other-type"><a href="../Caridina/Connection.html">Caridina::Connection</a></li>
+    
+      <li class="other-type"><a href="../Caridina/Modules/Receipts.html">Caridina::Modules::Receipts</a></li>
+    
+      <li class="other-type"><a href="../Caridina/Modules/Typing.html">Caridina::Modules::Typing</a></li>
     
   </ul>
 
@@ -510,6 +562,13 @@
 </a>
     Defined in:
   </h2>
+  
+    
+      <a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/connection.cr#L33" target="_blank">
+        connection.cr
+      </a>
+    
+    <br/>
   
 
 
@@ -548,6 +607,8 @@
       <li class="entry-summary">
         <a href="#new(hs_url:String,access_token:String)-class-method" class="signature"><strong>.new</strong>(hs_url : String, access_token : String)</a>
         
+          <div class="summary"><p>Create a new connection object using an access_token.</p></div>
+        
       </li>
     
   </ul>
@@ -566,6 +627,8 @@
     
       <li class="entry-summary">
         <a href="#login(hs_url:String,user_id:String,password:String):String-class-method" class="signature"><strong>.login</strong>(hs_url : String, user_id : String, password : String) : String</a>
+        
+          <div class="summary"><p>Logs in using to a given homeserver and returns the access token.</p></div>
         
       </li>
     
@@ -586,50 +649,49 @@
       <li class="entry-summary">
         <a href="#create_filter(filter):String-instance-method" class="signature"><strong>#create_filter</strong>(filter) : String</a>
         
+          <div class="summary"><p>Creates a sync filter and returns its id.</p></div>
+        
       </li>
     
       <li class="entry-summary">
         <a href="#edit_message(room_id:String,event_id:String,message:String,html:String?=nil):Nil-instance-method" class="signature"><strong>#edit_message</strong>(room_id : String, event_id : String, message : String, html : String? = <span class="n">nil</span>) : Nil</a>
         
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#get(route,**options)-instance-method" class="signature"><strong>#get</strong>(route, **options)</a>
+          <div class="summary"><p>Edits a message.</p></div>
         
       </li>
     
       <li class="entry-summary">
         <a href="#join(room_id):Nil-instance-method" class="signature"><strong>#join</strong>(room_id) : Nil</a>
         
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#post(route,data=nil,**options)-instance-method" class="signature"><strong>#post</strong>(route, data = <span class="n">nil</span>, **options)</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#put(route,data=nil)-instance-method" class="signature"><strong>#put</strong>(route, data = <span class="n">nil</span>)</a>
+          <div class="summary"><p>Joins a room.</p></div>
         
       </li>
     
       <li class="entry-summary">
         <a href="#send_message(room_id:String,message:String,html:String?=nil):String-instance-method" class="signature"><strong>#send_message</strong>(room_id : String, message : String, html : String? = <span class="n">nil</span>) : String</a>
         
+          <div class="summary"><p>Sends a message to a given room.</p></div>
+        
       </li>
     
       <li class="entry-summary">
-        <a href="#sync(channel)-instance-method" class="signature"><strong>#sync</strong>(channel)</a>
+        <a href="#sync(channel:Channel(Events::Sync))-instance-method" class="signature"><strong>#sync</strong>(channel : Channel(Events::Sync))</a>
+        
+          <div class="summary"><p>Starts syncing.</p></div>
         
       </li>
     
       <li class="entry-summary">
         <a href="#user_id:String-instance-method" class="signature"><strong>#user_id</strong> : String</a>
         
+          <div class="summary"><p>Returns the connected account's user_id.</p></div>
+        
       </li>
     
       <li class="entry-summary">
         <a href="#whoami:String-instance-method" class="signature"><strong>#whoami</strong> : String</a>
+        
+          <div class="summary"><p>Returns the connected account's user_id.</p></div>
         
       </li>
     
@@ -643,27 +705,55 @@
   
     
 
+  <h3>Instance methods inherited from module <code><a href="../Caridina/Modules/Typing.html">Caridina::Modules::Typing</a></code></h3>
+  
+  
+    <a href="../Caridina/Modules/Typing.html#send_typing(room_id:String,timeout=3000,typing=true):Nil-instance-method" class="tooltip">
+      <span>send_typing(room_id : String, timeout = <span class="n">3000</span>, typing = <span class="n">true</span>) : Nil</span>
+    send_typing</a>, 
+    
+  
+    <a href="../Caridina/Modules/Typing.html#typing(room_id:String,&)-instance-method" class="tooltip">
+      <span>typing(room_id : String, &)</span>
+    typing</a>
+    
+  
+
+
+    
+
+
+    
+
+
+  
+    
+
+  <h3>Instance methods inherited from module <code><a href="../Caridina/Modules/Receipts.html">Caridina::Modules::Receipts</a></code></h3>
+  
+  
+    <a href="../Caridina/Modules/Receipts.html#send_receipt(room_id:String,event_id:String,type=Type::Read):Nil-instance-method" class="tooltip">
+      <span>send_receipt(room_id : String, event_id : String, type = <span class="t">Type</span><span class="t">::</span><span class="t">Read</span>) : Nil</span>
+    send_receipt</a>
+    
+  
+
+
+    
+
+
+    
+
+
+  
+    
+
   <h3>Instance methods inherited from module <code><a href="../Caridina/Connection.html">Caridina::Connection</a></code></h3>
   
   
     <a href="../Caridina/Connection.html#edit_message(room_id:String,event_id:String,message:String,html:String?=nil):Nil-instance-method" class="tooltip">
       <span>edit_message(room_id : String, event_id : String, message : String, html : String? = <span class="n">nil</span>) : Nil</span>
     edit_message</a>, 
-    
-  
-    <a href="../Caridina/Connection.html#get(route,**options)-instance-method" class="tooltip">
-      <span>get(route, **options)</span>
-    get</a>, 
-    
-  
-    <a href="../Caridina/Connection.html#post(route,data=nil,**options)-instance-method" class="tooltip">
-      <span>post(route, data = <span class="n">nil</span>, **options)</span>
-    post</a>, 
-    
-  
-    <a href="../Caridina/Connection.html#put(route,data=nil)-instance-method" class="tooltip">
-      <span>put(route, data = <span class="n">nil</span>)</span>
-    put</a>, 
     
   
     <a href="../Caridina/Connection.html#send_message(room_id:String,message:String,html:String?=nil):String-instance-method" class="tooltip">
@@ -720,8 +810,15 @@
         <a class="method-permalink" href="#new(hs_url:String,access_token:String)-class-method">#</a>
       </div>
       
+        <div class="doc">
+          
+          <p>Create a new connection object using an access_token.</p>
+        </div>
+      
       <br/>
       <div>
+        
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/connection.cr#L73" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -746,8 +843,17 @@
         <a class="method-permalink" href="#login(hs_url:String,user_id:String,password:String):String-class-method">#</a>
       </div>
       
+        <div class="doc">
+          
+          <p>Logs in using to a given homeserver and returns the access token.</p>
+
+<p><a href="https://matrix.org/docs/spec/client_server/r0.6.1#post-matrix-client-r0-login" target="_blank">Matrix API</a></p>
+        </div>
+      
       <br/>
       <div>
+        
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/connection.cr#L49" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -772,8 +878,21 @@
         <a class="method-permalink" href="#create_filter(filter):String-instance-method">#</a>
       </div>
       
+        <div class="doc">
+          
+          <p>Creates a sync filter and returns its id.</p>
+
+<p>The <em>filter</em> parameter must be a JSON serializable object.</p>
+
+<p><span class="flag orange">TODO</span>  This should be implement with a proper model object.</p>
+
+<p><a href="https://matrix.org/docs/spec/client_server/r0.6.1#post-matrix-client-r0-user-userid-filter" target="_blank">Matrix API</a></p>
+        </div>
+      
       <br/>
       <div>
+        
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/connection.cr#L90" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -786,22 +905,17 @@
         <a class="method-permalink" href="#edit_message(room_id:String,event_id:String,message:String,html:String?=nil):Nil-instance-method">#</a>
       </div>
       
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="get(route,**options)-instance-method">
-      <div class="signature">
-        
-        def <strong>get</strong>(route, **options)
+        <div class="doc">
+          
+          <p>Edits a message.</p>
 
-        <a class="method-permalink" href="#get(route,**options)-instance-method">#</a>
-      </div>
+<p>Only <code>m.text</code> messages are supported for now.</p>
+        </div>
       
       <br/>
       <div>
+        
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/connection.cr#L106" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -814,36 +928,17 @@
         <a class="method-permalink" href="#join(room_id):Nil-instance-method">#</a>
       </div>
       
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="post(route,data=nil,**options)-instance-method">
-      <div class="signature">
-        
-        def <strong>post</strong>(route, data = <span class="n">nil</span>, **options)
+        <div class="doc">
+          
+          <p>Joins a room.</p>
 
-        <a class="method-permalink" href="#post(route,data=nil,**options)-instance-method">#</a>
-      </div>
+<p><a href="https://matrix.org/docs/spec/client_server/r0.6.1#post-matrix-client-r0-rooms-roomid-join" target="_blank">Matrix API</a></p>
+        </div>
       
       <br/>
       <div>
         
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="put(route,data=nil)-instance-method">
-      <div class="signature">
-        
-        def <strong>put</strong>(route, data = <span class="n">nil</span>)
-
-        <a class="method-permalink" href="#put(route,data=nil)-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/connection.cr#L99" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -856,22 +951,52 @@
         <a class="method-permalink" href="#send_message(room_id:String,message:String,html:String?=nil):String-instance-method">#</a>
       </div>
       
+        <div class="doc">
+          
+          <p>Sends a message to a given room.</p>
+
+<p>Only <code>m.text</code> messages are supported for now.</p>
+        </div>
+      
       <br/>
       <div>
+        
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/connection.cr#L115" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="sync(channel)-instance-method">
+    <div class="entry-detail" id="sync(channel:Channel(Events::Sync))-instance-method">
       <div class="signature">
         
-        def <strong>sync</strong>(channel)
+        def <strong>sync</strong>(channel : Channel(Events::Sync))
 
-        <a class="method-permalink" href="#sync(channel)-instance-method">#</a>
+        <a class="method-permalink" href="#sync(channel:Channel(Events::Sync))-instance-method">#</a>
       </div>
+      
+        <div class="doc">
+          
+          <p>Starts syncing.</p>
+
+<p>This method starts a new fiber wich will run sync queries, and send received
+events in <em>channel</em>.</p>
+
+<p>It uses a filter to limit the received events to supported ones.</p>
+
+<p>When called, it will first do an inital sync.
+This first sync may return events you already seen in a previous sync.
+You should handle this in your code, either by skipping the first sync or
+by storing the id of the events you processed.</p>
+
+<p><span class="flag orange">TODO</span>  accept an <em>next_batch</em> parameter to skip the initial sync.</p>
+
+<p><a href="https://matrix.org/docs/spec/client_server/r0.6.1#get-matrix-client-r0-sync" target="_blank">Matrix API</a></p>
+        </div>
       
       <br/>
       <div>
+        
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/connection.cr#L138" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -884,8 +1009,15 @@
         <a class="method-permalink" href="#user_id:String-instance-method">#</a>
       </div>
       
+        <div class="doc">
+          
+          <p>Returns the connected account's user_id.</p>
+        </div>
+      
       <br/>
       <div>
+        
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/connection.cr#L44" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -898,8 +1030,19 @@
         <a class="method-permalink" href="#whoami:String-instance-method">#</a>
       </div>
       
+        <div class="doc">
+          
+          <p>Returns the connected account's user_id.</p>
+
+<p>You probably should use <code><a href="../Caridina/ConnectionImpl.html#user_id:String-instance-method">#user_id</a></code> which already store that information.</p>
+
+<p><a href="https://matrix.org/docs/spec/client_server/r0.6.1#get-matrix-client-r0-account-whoami" target="_blank">Matrix API</a></p>
+        </div>
+      
       <br/>
       <div>
+        
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/connection.cr#L186" target="_blank">View source</a>]
         
       </div>
     </div>

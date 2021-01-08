@@ -1,4 +1,4 @@
-# caridina
+# caridina 🦐
 
 A [Matrix](https://matrix.org) client library written in [Crystal](https://crystal-lang.org).
 
@@ -19,6 +19,8 @@ It is also a species of shrimp, one of them being named "crystal red". Crystal f
 2. Run `shards install`
 
 ## Usage
+
+The API documentation is available [here](https://erdnaxeli.github.io/caridina/Caridina/ConnectionImpl.html).
 
 ### Connecting
 
@@ -63,6 +65,7 @@ understandable), we provide you a [Caridina::Syncer](src/syncer.cr) object.
 ```Crystal
 syncer = Caridina::Syncer.new
 syncer.on(Caridina::Events::Message) do |event|
+  event = event.as(Caridina::Events::Message)
   # TODO: actually do something
 end
 
@@ -75,7 +78,7 @@ syncer.process_response(sync)
 
 ### Read event
 
-The events in the sync response are `Caridina::Events::Event` objects.
+The events in the sync response are all `Caridina::Events::Event` objects.
 You need to restrict the type of an event object to access all its fields.
 
 ```Crystal
@@ -84,7 +87,7 @@ sync.rooms.try &.join.each do |room_id, room|
     case event
     when Caridina::Events::Member
       # someone's membership changed
-    when Caridina:: Events::PowerLevels
+    when Caridina::Events::PowerLevels
       # some authorization changed
     when Caridina::Events::Messages
       # someone talked
@@ -95,13 +98,9 @@ sync.rooms.try &.join.each do |room_id, room|
 end
 ```
 
-If you use the `Syncer` object you also get an `Event` object, but you can just
-restrict its type with `.as` without using a case, as you known to which type
-you were listening too (if you don't, something is weird).
-
 Sometimes the event's content can be polymorphic too.
 That is especially the case for message events.
-By using again a `case` clause you can restrict its type to access all its fields.
+By using again a `case` clause to `event.content` you can restrict its type to access all its fields.
 
 ### Send events
 
@@ -110,21 +109,30 @@ Instead this library provides a set of methods that correspond to different
 actions you may want to do.
 You usually do not need to worry about crafting the event to send.
 
-> :warning: This part is in a very early stage.
-> Currently only a few methods are provided.
+> :warning: This part is in a early stage.
+> Only a few methods are currently provided.
 
 ```Crystal
 # join a room
 conn.join("!room_id:matrix.org")
 # send a message
-event_id = conn.send_message("!room_id:matrix.org", "Hello, wurld!")
+event_id = conn.send_message("!room_id:matrix.org", "Hello, world!")
 # edit a message
-conn.edit_message("!room_id:matrix.org", "Hello, world!"))
+conn.edit_message("!room_id:matrix.org", event_id, "Hello, world!")
+# send a read receipt
+conn.send_receipt("!room_id:matrix.org", "$event_id:matrix.org")
+# Use the typing notification as a loader
+conn.typing("!room_id:matrix.org") do
+  # Do some processing.
+  # While we are in the block, a typing notification will be shown on the given
+  # room.
+  conn.send_message("!room_id:matrix.org", "All done!")
+end
 ```
 
 ## Development
 
-Install the depencies with `shards install`.
+Install the dependencies with `shards install`.
 
 * `make test` runs the tests
 * `make lint` runs the formater plus a linter

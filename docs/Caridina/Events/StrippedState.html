@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Crystal Docs 0.34.0">
-<meta name="crystal_docs.project_version" content="main-dev">
+<meta name="crystal_docs.project_version" content="main">
 <meta name="crystal_docs.project_name" content="caridina">
 
 
@@ -18,7 +18,7 @@
 </svg>
 
   <meta id="repository-name" content="caridina">
-  <title>Caridina::Events::StrippedState - caridina main-dev</title>
+  <title>Caridina::Events::StrippedState - caridina main</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../../";
   </script>
@@ -39,7 +39,7 @@
       </h1>
 
       <span class="project-version">
-        main-dev
+        main
       </span>
     </div>
   </div>
@@ -366,6 +366,36 @@
       
     </li>
   
+  <li class="parent " data-id="caridina/Caridina/Modules" data-name="caridina::modules">
+      <a href="../../Caridina/Modules.html">Modules</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="caridina/Caridina/Modules/Receipts" data-name="caridina::modules::receipts">
+      <a href="../../Caridina/Modules/Receipts.html">Receipts</a>
+      
+        <ul>
+  
+  <li class=" " data-id="caridina/Caridina/Modules/Receipts/Type" data-name="caridina::modules::receipts::type">
+      <a href="../../Caridina/Modules/Receipts/Type.html">Type</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="caridina/Caridina/Modules/Typing" data-name="caridina::modules::typing">
+      <a href="../../Caridina/Modules/Typing.html">Typing</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class="parent " data-id="caridina/Caridina/Responses" data-name="caridina::responses">
       <a href="../../Caridina/Responses.html">Responses</a>
       
@@ -484,14 +514,14 @@
     Overview
   </h2>
 
-  <p>This event represents a StrippedState event.</p>
+  <p>Represents a StrippedState event.</p>
 
-<p>It is used in <code><a href="../../Caridina/Events/Member.html">Member</a></code> event and in <code><a href="../../Caridina/Responses/Sync.html">Responses::Sync</a></code> in invited rooms's state.
+<p>It is used in <code><a href="../../Caridina/Events/Member.html">Member</a></code> event and in <code><a href="../../Caridina/Responses/Sync.html">Responses::Sync</a></code> in invited rooms' state.
 It is actually a state event, but it does not inherit from <code><a href="../../Caridina/Events/StateEvent.html">StateEvent</a></code> as
 some fields are not presents.</p>
 
 <p>This type is used to represents many distinct stripped state events.
-To distinguish them you must check the <code><a href="../../Caridina/Events/StrippedState.html#content-instance-method">#content</a></code>'s type.</p>
+To distinguish them you must check the <code><a href="../../Caridina/Events/StrippedState.html#content:Event::Content-instance-method">#content</a></code>'s type.</p>
 
 
 
@@ -529,6 +559,13 @@ To distinguish them you must check the <code><a href="../../Caridina/Events/Stri
     Defined in:
   </h2>
   
+    
+      <a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/events/state_events.cr#L127" target="_blank">
+        events/state_events.cr
+      </a>
+    
+    <br/>
+  
 
 
 
@@ -547,7 +584,7 @@ To distinguish them you must check the <code><a href="../../Caridina/Events/Stri
       <li class="entry-summary">
         <a href="#new(pull:JSON::PullParser)-class-method" class="signature"><strong>.new</strong>(pull : JSON::PullParser)</a>
         
-          <div class="summary"><p>This event represents a StrippedState event.</p></div>
+          <div class="summary"><p>Represents a StrippedState event.</p></div>
         
       </li>
     
@@ -568,21 +605,17 @@ To distinguish them you must check the <code><a href="../../Caridina/Events/Stri
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#content-instance-method" class="signature"><strong>#content</strong></a>
+        <a href="#content:Event::Content-instance-method" class="signature"><strong>#content</strong> : Event::Content</a>
         
       </li>
     
       <li class="entry-summary">
         <a href="#room_id:String?-instance-method" class="signature"><strong>#room_id</strong> : String?</a>
         
-          <div class="summary"><p>"room_id" is not set in events returned from the sync API, so we need to set it up ourself.</p></div>
-        
       </li>
     
       <li class="entry-summary">
         <a href="#room_id=(room_id:String?)-instance-method" class="signature"><strong>#room_id=</strong>(room_id : String?)</a>
-        
-          <div class="summary"><p>"room_id" is not set in events returned from the sync API, so we need to set it up ourself.</p></div>
         
       </li>
     
@@ -694,18 +727,20 @@ To distinguish them you must check the <code><a href="../../Caridina/Events/Stri
       
         <div class="doc">
           
-          <p>This event represents a StrippedState event.</p>
+          <p>Represents a StrippedState event.</p>
 
-<p>It is used in <code><a href="../../Caridina/Events/Member.html">Member</a></code> event and in <code><a href="../../Caridina/Responses/Sync.html">Responses::Sync</a></code> in invited rooms's state.
+<p>It is used in <code><a href="../../Caridina/Events/Member.html">Member</a></code> event and in <code><a href="../../Caridina/Responses/Sync.html">Responses::Sync</a></code> in invited rooms' state.
 It is actually a state event, but it does not inherit from <code><a href="../../Caridina/Events/StateEvent.html">StateEvent</a></code> as
 some fields are not presents.</p>
 
 <p>This type is used to represents many distinct stripped state events.
-To distinguish them you must check the <code><a href="../../Caridina/Events/StrippedState.html#content-instance-method">#content</a></code>'s type.</p>
+To distinguish them you must check the <code><a href="../../Caridina/Events/StrippedState.html#content:Event::Content-instance-method">#content</a></code>'s type.</p>
         </div>
       
       <br/>
       <div>
+        
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/events/state_events.cr#L127" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -724,16 +759,18 @@ To distinguish them you must check the <code><a href="../../Caridina/Events/Stri
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="content-instance-method">
+    <div class="entry-detail" id="content:Event::Content-instance-method">
       <div class="signature">
         
-        def <strong>content</strong>
+        def <strong>content</strong> : <a href="../../Caridina/Events/Event/Content.html">Event::Content</a>
 
-        <a class="method-permalink" href="#content-instance-method">#</a>
+        <a class="method-permalink" href="#content:Event::Content-instance-method">#</a>
       </div>
       
       <br/>
       <div>
+        
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/events/state_events.cr#L134" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -746,14 +783,10 @@ To distinguish them you must check the <code><a href="../../Caridina/Events/Stri
         <a class="method-permalink" href="#room_id:String?-instance-method">#</a>
       </div>
       
-        <div class="doc">
-          
-          <p>"room_id" is not set in events returned from the sync API, so we need to
-set it up ourself.</p>
-        </div>
-      
       <br/>
       <div>
+        
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/events/state_events.cr#L132" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -766,14 +799,10 @@ set it up ourself.</p>
         <a class="method-permalink" href="#room_id=(room_id:String?)-instance-method">#</a>
       </div>
       
-        <div class="doc">
-          
-          <p>"room_id" is not set in events returned from the sync API, so we need to
-set it up ourself.</p>
-        </div>
-      
       <br/>
       <div>
+        
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/events/state_events.cr#L132" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -789,6 +818,8 @@ set it up ourself.</p>
       <br/>
       <div>
         
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/events/state_events.cr#L131" target="_blank">View source</a>]
+        
       </div>
     </div>
   
@@ -802,6 +833,8 @@ set it up ourself.</p>
       
       <br/>
       <div>
+        
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/events/state_events.cr#L130" target="_blank">View source</a>]
         
       </div>
     </div>

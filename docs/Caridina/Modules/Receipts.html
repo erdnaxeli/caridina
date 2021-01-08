@@ -18,7 +18,7 @@
 </svg>
 
   <meta id="repository-name" content="caridina">
-  <title>Caridina::Events::Member - caridina main</title>
+  <title>Caridina::Modules::Receipts - caridina main</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../../";
   </script>
@@ -96,7 +96,7 @@
       
     </li>
   
-  <li class="parent open current" data-id="caridina/Caridina/Events" data-name="caridina::events">
+  <li class="parent " data-id="caridina/Caridina/Events" data-name="caridina::events">
       <a href="../../Caridina/Events.html">Events</a>
       
         <ul>
@@ -191,7 +191,7 @@
       
     </li>
   
-  <li class="parent open current" data-id="caridina/Caridina/Events/Member" data-name="caridina::events::member">
+  <li class="parent " data-id="caridina/Caridina/Events/Member" data-name="caridina::events::member">
       <a href="../../Caridina/Events/Member.html">Member</a>
       
         <ul>
@@ -366,12 +366,12 @@
       
     </li>
   
-  <li class="parent " data-id="caridina/Caridina/Modules" data-name="caridina::modules">
+  <li class="parent open current" data-id="caridina/Caridina/Modules" data-name="caridina::modules">
       <a href="../../Caridina/Modules.html">Modules</a>
       
         <ul>
   
-  <li class="parent " data-id="caridina/Caridina/Modules/Receipts" data-name="caridina::modules::receipts">
+  <li class="parent open current" data-id="caridina/Caridina/Modules/Receipts" data-name="caridina::modules::receipts">
       <a href="../../Caridina/Modules/Receipts.html">Receipts</a>
       
         <ul>
@@ -495,12 +495,10 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">class</span> Caridina::Events::Member
+  <span class="kind">module</span> Caridina::Modules::Receipts
 
 </h1>
 
-
-  <ul class="superclass-hierarchy"><li class="superclass"><a href="../../Caridina/Events/Member.html">Caridina::Events::Member</a></li><li class="superclass"><a href="../../Caridina/Events/StateEvent.html">Caridina::Events::StateEvent</a></li><li class="superclass"><a href="../../Caridina/Events/RoomEvent.html">Caridina::Events::RoomEvent</a></li><li class="superclass"><a href="../../Caridina/Events/Event.html">Caridina::Events::Event</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
 
 
 
@@ -514,9 +512,7 @@
     Overview
   </h2>
 
-  <p>Represents a m.room.member event.</p>
-
-<p><a href="https://matrix.org/docs/spec/client_server/r0.6.1#m-room-member" target="_blank">Matrix API</a></p>
+  <p><a href="https://matrix.org/docs/spec/client_server/r0.6.1#id53" target="_blank">Matrix API</a></p>
 
 
 
@@ -527,6 +523,20 @@
 
 
 
+
+  <h2>
+    <a id="direct-including-types" class="anchor" href="#direct-including-types">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Direct including types
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type"><a href="../../Caridina/ConnectionImpl.html">Caridina::ConnectionImpl</a></li>
+    
+  </ul>
 
 
 
@@ -541,8 +551,8 @@
   </h2>
   
     
-      <a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/events/state_events.cr#L62" target="_blank">
-        events/state_events.cr
+      <a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/modules/receipts.cr#L2" target="_blank">
+        modules/receipts.cr
       </a>
     
     <br/>
@@ -551,23 +561,6 @@
 
 
 
-
-  <h2>
-    <a id="constructors" class="anchor" href="#constructors">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Constructors
-  </h2>
-  <ul class="list-summary">
-    
-      <li class="entry-summary">
-        <a href="#new(pull:JSON::PullParser)-class-method" class="signature"><strong>.new</strong>(pull : JSON::PullParser)</a>
-        
-      </li>
-    
-  </ul>
 
 
 
@@ -584,12 +577,9 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#content:Content-instance-method" class="signature"><strong>#content</strong> : Content</a>
+        <a href="#send_receipt(room_id:String,event_id:String,type=Type::Read):Nil-instance-method" class="signature"><strong>#send_receipt</strong>(room_id : String, event_id : String, type = <span class="t">Type</span><span class="t">::</span><span class="t">Read</span>) : Nil</a>
         
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#unsigned:UnsignedData?-instance-method" class="signature"><strong>#unsigned</strong> : UnsignedData?</a>
+          <div class="summary"><p>Sends a receipt.</p></div>
         
       </li>
     
@@ -601,168 +591,8 @@
 
 <div class="methods-inherited">
   
-    
-
-  <h3>Instance methods inherited from class <code><a href="../../Caridina/Events/StateEvent.html">Caridina::Events::StateEvent</a></code></h3>
-  
-  
-    <a href="../../Caridina/Events/StateEvent.html#state_key:String-instance-method" class="tooltip">
-      <span>state_key : String</span>
-    state_key</a>
-    
-  
-
-
-    
-
-  <h3>Constructor methods inherited from class <code><a href="../../Caridina/Events/StateEvent.html">Caridina::Events::StateEvent</a></code></h3>
-  
-  
-    <a href="../../Caridina/Events/StateEvent.html#new(pull:JSON::PullParser)-class-method" class="tooltip">
-      <span>new(pull : JSON::PullParser)</span>
-    new</a>
-    
-  
-
-
-    
-
-
-  
-    
-
-  <h3>Instance methods inherited from class <code><a href="../../Caridina/Events/RoomEvent.html">Caridina::Events::RoomEvent</a></code></h3>
-  
-  
-    <a href="../../Caridina/Events/RoomEvent.html#event_id:String-instance-method" class="tooltip">
-      <span>event_id : String</span>
-    event_id</a>, 
-    
-  
-    <a href="../../Caridina/Events/RoomEvent.html#origin_server_ts:UInt64-instance-method" class="tooltip">
-      <span>origin_server_ts : UInt64</span>
-    origin_server_ts</a>, 
-    
-  
-    <a href="../../Caridina/Events/RoomEvent.html#room_id:String?-instance-method" class="tooltip">
-      <span>room_id : String?</span>
-    room_id</a>, 
-    
-  
-    <a href="../../Caridina/Events/RoomEvent.html#room_id=(room_id:String?)-instance-method" class="tooltip">
-      <span>room_id=(room_id : String?)</span>
-    room_id=</a>, 
-    
-  
-    <a href="../../Caridina/Events/RoomEvent.html#sender:String-instance-method" class="tooltip">
-      <span>sender : String</span>
-    sender</a>
-    
-  
-
-
-    
-
-  <h3>Constructor methods inherited from class <code><a href="../../Caridina/Events/RoomEvent.html">Caridina::Events::RoomEvent</a></code></h3>
-  
-  
-    <a href="../../Caridina/Events/RoomEvent.html#new(pull:JSON::PullParser)-class-method" class="tooltip">
-      <span>new(pull : JSON::PullParser)</span>
-    new</a>
-    
-  
-
-
-    
-
-
-  
-    
-
-  <h3>Instance methods inherited from class <code><a href="../../Caridina/Events/Event.html">Caridina::Events::Event</a></code></h3>
-  
-  
-    <a href="../../Caridina/Events/Event.html#type:String-instance-method" class="tooltip">
-      <span>type : String</span>
-    type</a>
-    
-  
-
-
-    
-
-  <h3>Constructor methods inherited from class <code><a href="../../Caridina/Events/Event.html">Caridina::Events::Event</a></code></h3>
-  
-  
-    <a href="../../Caridina/Events/Event.html#new(pull:JSON::PullParser)-class-method" class="tooltip">
-      <span>new(pull : JSON::PullParser)</span>
-    new</a>
-    
-  
-
-
-    
-
-
-  
-    
-
-
-    
-
-
-    
-
-
-  
-    
-
-
-    
-
-
-    
-
-
-  
-    
-
-
-    
-
-
-    
-
-
-  
 </div>
 
-
-  <h2>
-    <a id="constructor-detail" class="anchor" href="#constructor-detail">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Constructor Detail
-  </h2>
-  
-    <div class="entry-detail" id="new(pull:JSON::PullParser)-class-method">
-      <div class="signature">
-        
-        def self.<strong>new</strong>(pull : JSON::PullParser)
-
-        <a class="method-permalink" href="#new(pull:JSON::PullParser)-class-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/events/state_events.cr#L62" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
 
 
 
@@ -777,32 +607,27 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="content:Content-instance-method">
+    <div class="entry-detail" id="send_receipt(room_id:String,event_id:String,type=Type::Read):Nil-instance-method">
       <div class="signature">
         
-        def <strong>content</strong> : <a href="../../Caridina/Events/Member/Content.html">Content</a>
+        def <strong>send_receipt</strong>(room_id : String, event_id : String, type = <span class="t">Type</span><span class="t">::</span><span class="t">Read</span>) : Nil
 
-        <a class="method-permalink" href="#content:Content-instance-method">#</a>
+        <a class="method-permalink" href="#send_receipt(room_id:String,event_id:String,type=Type::Read):Nil-instance-method">#</a>
       </div>
+      
+        <div class="doc">
+          
+          <p>Sends a receipt.</p>
+
+<p>The only available type so far is a read receipt.</p>
+
+<p><a href="https://matrix.org/docs/spec/client_server/r0.6.1#post-matrix-client-r0-rooms-roomid-receipt-receipttype-eventid" target="_blank">Matrix API</a></p>
+        </div>
       
       <br/>
       <div>
         
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="unsigned:UnsignedData?-instance-method">
-      <div class="signature">
-        
-        def <strong>unsigned</strong> : <a href="../../Caridina/Events/Member/UnsignedData.html">UnsignedData</a>?
-
-        <a class="method-permalink" href="#unsigned:UnsignedData?-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/events/state_events.cr#L91" target="_blank">View source</a>]
+          [<a href="https://github.com/erdnaxeli/caridina/blob/7c58c8524f75fae30dbd2e85819c98d6ce827a5e/src/modules/receipts.cr#L19" target="_blank">View source</a>]
         
       </div>
     </div>
