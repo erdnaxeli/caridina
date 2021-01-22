@@ -1,6 +1,6 @@
 # TODO: Write documentation for `Caridina`
 
-require "./connection"
+require "./caridina/connection"
 
 module Caridina
   VERSION = "0.7.1"

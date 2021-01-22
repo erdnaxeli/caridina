@@ -1,4 +1,4 @@
-require "../src/syncer"
+require "../../src/caridina/syncer"
 
 require "./spec_helper"
 

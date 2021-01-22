@@ -7,8 +7,8 @@ require "./modules/*"
 require "./responses/*"
 
 module Caridina
-  # Interface that represents a Matrix client.
-  module Connection
+  # Interface that represents a Matrix connection.
+  module ConnectionInterface
     class ExecError < Exception
     end
 
@@ -22,7 +22,7 @@ module Caridina
     abstract def put(route, data = nil)
   end
 
-  # Implements a connection.
+  # A Matrix connection.
   #
   # This is the main entrypoint for this library.
   # You will find here all methods to interact with the Matrix API.
@@ -30,8 +30,8 @@ module Caridina
   # Those methods handle retrying when the connection is
   # being rate limited.
   # If there is another error, an `ExecError` while be returned.
-  class ConnectionImpl
-    include Connection
+  class Connection
+    include ConnectionInterface
     include Modules::Receipts
     include Modules::Typing
 
@@ -61,7 +61,7 @@ module Caridina
         body: data.to_json,
       )
 
-      if !response.success
+      if !response.success?
         raise Exception.new("Error with status_code #{response.status_code}")
       end
 
@@ -135,7 +135,7 @@ module Caridina
     # TODO: accept an *next_batch* parameter to skip the initial sync.
     #
     # [Matrix API](https://matrix.org/docs/spec/client_server/r0.6.1#get-matrix-client-r0-sync)
-    def sync(channel : Channel(Events::Sync))
+    def sync(channel : Channel(Responses::Sync))
       if @syncing
         raise Exception.new("Already syncing")
       end

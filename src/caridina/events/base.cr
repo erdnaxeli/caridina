@@ -5,7 +5,7 @@ module Caridina::Events
 
   # Base type representing an event.
   #
-  # All types returned by the `Caridina::ConnectionImpl::Sync` method will be
+  # All types returned by the `Caridina::Connection::Sync` method will be
   # of this type.
   # You can then match the returned event type against known types to be able
   # to use all the event's field.

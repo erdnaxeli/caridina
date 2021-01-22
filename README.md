@@ -20,7 +20,7 @@ It is also a species of shrimp, one of them being named "crystal red". Crystal f
 
 ## Usage
 
-The API documentation is available [here](https://erdnaxeli.github.io/caridina/Caridina/ConnectionImpl.html).
+The API documentation is available [here](https://erdnaxeli.github.io/caridina/Caridina/Connection.html).
 
 ### Connecting
 
@@ -29,7 +29,7 @@ Create a new connection object:
 ```crystal
 require "caridina"
 
-conn = Caridina::ConnectionImpl.new(
+conn = Caridina::Connection.new(
   "https://my-favorite-hs.example.org",
   "my access token",
 )
@@ -38,7 +38,7 @@ conn = Caridina::ConnectionImpl.new(
 You can also login to get a new access token:
 
 ```crystal
-access_token = Caridina::ConnectionImpl.login(
+access_token = Caridina::Connection.login(
   "https://my-favorite-hs.example.org",
   "@mybotuserid:my-favorite-hs.example.org",
   "my secret password",
@@ -51,7 +51,7 @@ Now we can create a new channel, and tell the connection object to start syncing
 The sync responses will be streamed in the channel.
 
 ```Crystal
-matrix = Channel(Caridina::Events::Sync).new
+matrix = Channel(Caridina::Responses::Sync).new
 conn.sync(matrix)
 
 sync = matrix.receive
@@ -63,6 +63,8 @@ If you don't want to go through the whole sync response by yourself (which is
 understandable), we provide you a [Caridina::Syncer](src/syncer.cr) object.
 
 ```Crystal
+require "caridina/syncer"
+
 syncer = Caridina::Syncer.new
 syncer.on(Caridina::Events::Message) do |event|
   event = event.as(Caridina::Events::Message)
@@ -89,7 +91,7 @@ sync.rooms.try &.join.each do |room_id, room|
       # someone's membership changed
     when Caridina::Events::PowerLevels
       # some authorization changed
-    when Caridina::Events::Messages
+    when Caridina::Events::Message
       # someone talked
     else
       # unknown event
