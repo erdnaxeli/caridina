@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Crystal Docs 0.34.0">
-<meta name="crystal_docs.project_version" content="main">
+<meta name="crystal_docs.project_version" content="0.8.0-dev">
 <meta name="crystal_docs.project_name" content="caridina">
 
 
@@ -18,7 +18,7 @@
 </svg>
 
   <meta id="repository-name" content="caridina">
-  <title>caridina main</title>
+  <title>caridina 0.8.0-dev</title>
   <script type="text/javascript">
   CrystalDocs.base_path = "";
   </script>
@@ -39,7 +39,7 @@
       </h1>
 
       <span class="project-version">
-        main
+        0.8.0-dev
       </span>
     </div>
   </div>
@@ -61,23 +61,23 @@
       
         <ul>
   
-  <li class="parent " data-id="caridina/Caridina/Connection" data-name="caridina::connection">
+  <li class=" " data-id="caridina/Caridina/Connection" data-name="caridina::connection">
       <a href="Caridina/Connection.html">Connection</a>
+      
+    </li>
+  
+  <li class="parent " data-id="caridina/Caridina/ConnectionInterface" data-name="caridina::connectioninterface">
+      <a href="Caridina/ConnectionInterface.html">ConnectionInterface</a>
       
         <ul>
   
-  <li class=" " data-id="caridina/Caridina/Connection/ExecError" data-name="caridina::connection::execerror">
-      <a href="Caridina/Connection/ExecError.html">ExecError</a>
+  <li class=" " data-id="caridina/Caridina/ConnectionInterface/ExecError" data-name="caridina::connectioninterface::execerror">
+      <a href="Caridina/ConnectionInterface/ExecError.html">ExecError</a>
       
     </li>
   
 </ul>
 
-      
-    </li>
-  
-  <li class=" " data-id="caridina/Caridina/ConnectionImpl" data-name="caridina::connectionimpl">
-      <a href="Caridina/ConnectionImpl.html">ConnectionImpl</a>
       
     </li>
   
@@ -529,7 +529,7 @@
   </svg>
 </a>Usage</h2>
 
-<p>The API documentation is available <a href="https://erdnaxeli.github.io/caridina/Caridina/ConnectionImpl.html" target="_blank">here</a>.</p>
+<p>The API documentation is available <a href="https://erdnaxeli.github.io/caridina/Caridina/Connection.html" target="_blank">here</a>.</p>
 
 <h3><a id="connecting" class="anchor" href="#connecting">
   <svg class="octicon-link" aria-hidden="true">
@@ -541,14 +541,14 @@
 
 <pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;caridina&quot;</span>
 
-conn <span class="o">=</span> <span class="t">Caridina</span><span class="t">::</span><span class="t">ConnectionImpl</span>.<span class="k">new</span>(
+conn <span class="o">=</span> <span class="t">Caridina</span><span class="t">::</span><span class="t">Connection</span>.<span class="k">new</span>(
   <span class="s">&quot;https://my-favorite-hs.example.org&quot;</span>,
   <span class="s">&quot;my access token&quot;</span>,
 )</code></pre>
 
 <p>You can also login to get a new access token:</p>
 
-<pre><code class="language-crystal">access_token <span class="o">=</span> <span class="t">Caridina</span><span class="t">::</span><span class="t">ConnectionImpl</span>.login(
+<pre><code class="language-crystal">access_token <span class="o">=</span> <span class="t">Caridina</span><span class="t">::</span><span class="t">Connection</span>.login(
   <span class="s">&quot;https://my-favorite-hs.example.org&quot;</span>,
   <span class="s">&quot;@mybotuserid:my-favorite-hs.example.org&quot;</span>,
   <span class="s">&quot;my secret password&quot;</span>,
@@ -563,7 +563,7 @@ conn <span class="o">=</span> <span class="t">Caridina</span><span class="t">::<
 <p>Now we can create a new channel, and tell the connection object to start syncing.
 The sync responses will be streamed in the channel.</p>
 
-<pre><code class="language-Crystal">matrix = Channel(Caridina::Events::Sync).new
+<pre><code class="language-Crystal">matrix = Channel(Caridina::Responses::Sync).new
 conn.sync(matrix)
 
 sync = matrix.receive</code></pre>
@@ -573,7 +573,9 @@ sync = matrix.receive</code></pre>
 <p>If you don't want to go through the whole sync response by yourself (which is
 understandable), we provide you a <a href="src/syncer.cr" target="_blank">Caridina::Syncer</a> object.</p>
 
-<pre><code class="language-Crystal">syncer = Caridina::Syncer.new
+<pre><code class="language-Crystal">require "caridina/syncer"
+
+syncer = Caridina::Syncer.new
 syncer.on(Caridina::Events::Message) do |event|
   event = event.as(Caridina::Events::Message)
   # TODO: actually do something
@@ -601,7 +603,7 @@ You need to restrict the type of an event object to access all its fields.</p>
       # someone's membership changed
     when Caridina::Events::PowerLevels
       # some authorization changed
-    when Caridina::Events::Messages
+    when Caridina::Events::Message
       # someone talked
     else
       # unknown event
