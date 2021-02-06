@@ -222,7 +222,7 @@ describe "caridina_use_json_discriminator" do
   end
 
   it "raises with incomplet indirect discriminator" do
-    expect_raises(JSON::MappingError) do
+    expect_raises(JSON::SerializableError) do
       ManyIndirectDiscriminator.from_json(%(
 {
   "othertype": {
@@ -400,7 +400,7 @@ describe "caridina_use_json_discriminator" do
   end
 
   it "raises if the discriminator value is unknown and not fallback is provided" do
-    expect_raises(JSON::MappingError) do
+    expect_raises(JSON::SerializableError) do
       UniqueSimpleDiscriminator.from_json(%(
 {
   "type": "unknown"

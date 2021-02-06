@@ -149,7 +149,7 @@ macro caridina_use_json_discriminator(mapping, fallback = nil)
 
     fields = {{mapping.keys.id}}
     unless discriminators.size
-      raise ::JSON::MappingError.new("JSON is missing one of discriminator fields: #{fields}", to_s, nil, *location, nil)
+      raise ::JSON::SerializableError.new("JSON is missing one of discriminator fields: #{fields}", to_s, nil, *location, nil)
     end
 
     # Order the discriminators found by priority, higher priority first.
@@ -177,7 +177,7 @@ macro caridina_use_json_discriminator(mapping, fallback = nil)
     {% if fallback %}
       {{fallback.id}}.from_json(json)
     {% else %}
-      raise ::JSON::MappingError.new("Unknown discriminators #{discriminators.inspect}", to_s, nil, *location, nil)
+      raise ::JSON::SerializableError.new("Unknown discriminators #{discriminators.inspect}", to_s, nil, *location, nil)
     {% end %}
   end
 end
