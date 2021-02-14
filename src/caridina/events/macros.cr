@@ -181,3 +181,85 @@ macro caridina_use_json_discriminator(mapping, fallback = nil)
     {% end %}
   end
 end
+
+module Caridina::Events
+  macro make_relates_to
+    # Represents a relation to another event.
+    #
+    # [Matrix API](https://matrix.org/docs/spec/client_server/r0.6.1#forming-relationships-between-events)
+    struct RelatesTo
+      include JSON::Serializable
+
+      getter rel_type : String?
+      getter event_id : String?
+
+      def initialize(@rel_type, @event_id)
+      end
+    end
+
+    # This implements MSC2674 (event relationships).
+    #
+    # [Matrix MSC](https://github.com/matrix-org/matrix-doc/pull/2674)
+    @[JSON::Field(key: "m.relates_to")]
+    getter relates_to : RelatesTo?
+  end
+
+  macro make_unsigned_data
+    struct UnsignedData
+      include JSON::Serializable
+
+      getter age : Int64
+      getter transaction_id : String?
+    end
+  end
+
+  macro make_content(*fields)
+    class Content
+      include JSON::Serializable
+
+      Caridina::Events.make_relates_to
+
+      {% for field in fields %}
+        getter {{field.id}}
+      {% end %}
+    end
+
+    getter content : Content
+  end
+
+  macro make_room_event(name, type, *fields, superclass = nil)
+    @[Type({{type}})]
+    class {{name.id}} < {% if superclass %}{{superclass}}{% else %} RoomEvent{% end %}
+      Caridina::Events.make_content({{*fields}})
+      Caridina::Events.make_unsigned_data
+
+      getter event_id : String
+      getter sender : String
+      getter origin_server_ts : UInt64
+      getter type : String
+      getter unsigned : UnsignedData?
+
+      # Can be null if we are in a context where the room's id is known (e.g. in a sync event).
+      property room_id : String?
+
+      {{yield}}
+    end
+  end
+
+  macro make_state_event(name, type, *fields)
+    Caridina::Events.make_room_event({{name}}, {{type}}, {{*fields}}, superclass: StateEvent) do
+      getter state_key : String
+
+      {{yield}}
+    end
+
+    class Stripped{{name}} < StrippedState
+      getter content : {{name.id}}::Content
+      getter sender : String
+      getter state_key : String
+      getter type : String
+
+      property room_id : String?
+    end
+  end
+end
