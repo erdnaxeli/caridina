@@ -227,15 +227,86 @@ module Caridina::Events
     getter content : Content
   end
 
+  macro make_redacted(name, type, fields, superclass)
+    {% redaction_allowed_fields = {
+      "event_id",
+      "type",
+      "room_id",
+      "sender",
+      "state_key",
+      "content",
+      "hashes",
+      "signatures",
+      "depth",
+      "prev_events",
+      "prev_state",
+      "auth_events",
+      "origin",
+      "origin_server_ts",
+      "membership",
+    }
+    %}
+
+    class Redacted{{name.id}} < {{superclass}}
+      struct Content
+        include JSON::Serializable
+        include JSON::Serializable::Strict
+
+        {% if type == "m.room.member" %}
+          getter membership : Member::Membership
+        {% elsif type == "m.room.create" %}
+          getter creator : String
+        {% elsif type == "m.room.join_rules" %}
+          getter join_rule : JoinRules::JoinRule
+        {% elsif type == "m.room.power_levels" %}
+          getter ban = 50_u8
+          getter events = Hash(String, UInt8).new
+          getter events_default = 0_u8
+          getter kick = 50_u8
+          getter redact = 50_u8
+          getter states_default = 50_u8
+          getter users = Hash(String, UInt8).new
+          getter users_default = 0_i8
+        {% end %}
+      end
+
+
+      {% for field in fields %}
+        {% if field.is_a?(TypeDeclaration) %}
+          {% name = field.var %}
+        {% elsif field.is_a?(Assign) %}
+          {% name = field.target %}
+        {% else %}
+          {% raise "Unhandled field #{field}" %}
+        {% end %}
+
+        {% if redaction_allowed_fields.includes?(name.stringify) %}
+          getter {{field.id}}
+        {% end %}
+      {% end %}
+
+      getter event_id : String
+      getter origin_server_ts : UInt64
+      getter sender : String
+      getter type : String
+
+      # Can be null if we are in a context where the room's id is known (e.g. in a sync event).
+      property room_id : String?
+    end
+  end
+
   macro make_room_event(name, type, *fields, superclass = nil)
     @[Type({{type}})]
-    class {{name.id}} < {% if superclass %}{{superclass}}{% else %} RoomEvent{% end %}
+    {% if !superclass %}
+      {% superclass = RoomEvent %}
+    {% end %}
+    class {{name.id}} < {{superclass}}
       Caridina::Events.make_content({{*fields}})
       Caridina::Events.make_unsigned_data
 
       getter event_id : String
-      getter sender : String
       getter origin_server_ts : UInt64
+      getter sender : String
       getter type : String
       getter unsigned : UnsignedData?
 
@@ -244,6 +315,8 @@ module Caridina::Events
 
       {{yield}}
     end
+
+    make_redacted({{name.id}}, {{type}}, {{fields}}, {{superclass}})
   end
 
   macro make_state_event(name, type, *fields)

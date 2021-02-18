@@ -97,7 +97,7 @@ module Caridina::Events
     "m.room.member",
     avatar_url : String?,
     displayname : String?,
-    membership : Membership,
+    membership : Member::Membership,
     is_direct : Bool?,
     third_party_invite : Invite?,
   ) do
