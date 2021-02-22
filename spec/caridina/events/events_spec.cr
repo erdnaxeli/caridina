@@ -12,4 +12,3 @@ describe Caridina::Events::Event do
     unknown.type.should eq("m.unknown")
   end
 end
-

@@ -17,13 +17,13 @@ module Caridina::Events
     caridina_use_json_discriminator(
       {
         "type" => {
-          "m.room.canonical_alias" => CanonicalAlias,
-          "m.room.create"          => Create,
-          "m.room.join_rules"      => JoinRules,
-          "m.room.member"          => Member,
-          "m.room.power_levels"    => PowerLevels,
-          "m.room.redaction"       => Redaction,
-          "m.room.message"         => Message,
+          "m.room.canonical_alias" => [CanonicalAlias, RedactedCanonicalAlias],
+          "m.room.create"          => [Create, RedactedCreate],
+          "m.room.join_rules"      => [JoinRules, RedactedJoinRules],
+          "m.room.member"          => [Member, RedactedMember],
+          "m.room.power_levels"    => [PowerLevels, RedactedPowerLevels],
+          "m.room.redaction"       => [Redaction, RedactedRedaction],
+          "m.room.message"         => [Message, RedactedMessage],
         },
       },
       Unknown,

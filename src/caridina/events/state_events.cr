@@ -16,17 +16,12 @@ module Caridina::Events
     caridina_use_json_discriminator(
       {
         "type" => {
-            # {% for event in StrippedState.all_subclasses.select &.annotation(Type) %}
-            #   {% if type = event.annotation(Type) %}
-            #     {{ type[0] }} => {{event}},
-            #   {% end %}
-            # {% end %}
-            "m.room.canonical_alias" => StrippedCanonicalAlias,
-            "m.room.create" => StrippedCreate,
-            "m.room.join_rules" => StrippedJoinRules,
-            "m.room.member" => StrippedMember,
-            "m.room.power_levels" => StrippedPowerLevels,
-        }
+          "m.room.canonical_alias" => StrippedCanonicalAlias,
+          "m.room.create"          => StrippedCreate,
+          "m.room.join_rules"      => StrippedJoinRules,
+          "m.room.member"          => StrippedMember,
+          "m.room.power_levels"    => StrippedPowerLevels,
+        },
       },
       StrippedUnknown,
     )

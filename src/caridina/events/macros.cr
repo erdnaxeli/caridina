@@ -4,6 +4,9 @@
 # fields. If no known discriminator value is found, it use the fallback type if any
 # or raise an error.
 #
+# Many types can be given for a discriminator, using an array. In this case the
+# first one deserializing without error is returned.
+#
 # The mapping should be order by priority, in case many discriminator values are
 # found, higher priority last.
 #
@@ -16,7 +19,7 @@
 #   caridina_use_json_discriminator(
 #     {
 #       ["type", "name"] => {"A": EventA, "B": EventB},
-#       "event_type"     => {"A": EventA, "C": EventC},
+#       "event_type"     => {"A": EventA, "C": EventC, "AC": [EventA, EventC]},
 #     }
 #   )
 #
@@ -43,6 +46,13 @@
 #     ...
 #   }
 # )) # => EventC(…)
+#
+# Event.from_json(%(
+#   {
+#     "event_type": "AC",
+#     ...
+#   }
+# )) # => EventA, or if it fails to deserialize it to EventA then EventC
 # ```
 #
 # You MUST use an array when using a nested field as a discriminator field. There
@@ -160,11 +170,26 @@ macro caridina_use_json_discriminator(mapping, fallback = nil)
       case field_name
       {% for field_key, field_mapping in mapping %}
         when {{field_key}}
+          key = {{field_key.stringify}}
           case discriminator_value
           {% for key, value in mapping[field_key] %}
             when {{key.id.stringify}}
-              # We found a valid discriminator value, we can stop here.
-              return {{value.id}}.from_json(json)
+              # We found a valid discriminator value.
+              {% if value.is_a?(ArrayLiteral) %}
+                {% for type_ in value %}
+                  begin
+                    return {{type_}}.from_json(json)
+                  rescue JSON::SerializableError
+                {% end %}
+
+                  raise JSON::SerializableError.new("No type can deserialize the given JSON. The key used was #{key}", to_s, nil, *location, nil)
+
+                {% for type_ in value %}
+                  end
+                {% end %}
+              {% else %}
+                return {{value.id}}.from_json(json)
+              {% end %}
           {% end %}
           end
       {% end %}
@@ -229,23 +254,22 @@ module Caridina::Events
 
   macro make_redacted(name, type, fields, superclass)
     {% redaction_allowed_fields = {
-      "event_id",
-      "type",
-      "room_id",
-      "sender",
-      "state_key",
-      "content",
-      "hashes",
-      "signatures",
-      "depth",
-      "prev_events",
-      "prev_state",
-      "auth_events",
-      "origin",
-      "origin_server_ts",
-      "membership",
-    }
-    %}
+         "event_id",
+         "type",
+         "room_id",
+         "sender",
+         "state_key",
+         "content",
+         "hashes",
+         "signatures",
+         "depth",
+         "prev_events",
+         "prev_state",
+         "auth_events",
+         "origin",
+         "origin_server_ts",
+         "membership",
+       } %}
 
     class Redacted{{name.id}} < {{superclass}}
       struct Content
