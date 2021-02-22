@@ -87,7 +87,7 @@ module Caridina::Events
         include Content
 
         def initialize(@body, @formatted_body, event_id)
-          @relates_to = Event::RelatesTo.new("m.replace", event_id)
+          @relates_to = Message::Content::RelatesTo.new("m.replace", event_id)
           @new_content = Message::Text.new(body, formatted_body)
 
           super(@body, @formatted_body)
