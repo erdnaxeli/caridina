@@ -17,60 +17,23 @@ module Caridina::Events
     caridina_use_json_discriminator(
       {
         "type" => {
-          "m.room.canonical_alias" => CanonicalAlias,
-          "m.room.create"          => Create,
-          "m.room.join_rules"      => JoinRules,
-          "m.room.member"          => Member,
-          "m.room.power_levels"    => PowerLevels,
-          "m.room.redaction"       => Redaction,
-          "m.room.message"         => Message,
+          "m.room.canonical_alias" => [CanonicalAlias, RedactedCanonicalAlias],
+          "m.room.create"          => [Create, RedactedCreate],
+          "m.room.join_rules"      => [JoinRules, RedactedJoinRules],
+          "m.room.member"          => [Member, RedactedMember],
+          "m.room.power_levels"    => [PowerLevels, RedactedPowerLevels],
+          "m.room.redaction"       => [Redaction, RedactedRedaction],
+          "m.room.message"         => [Message, RedactedMessage],
         },
       },
       Unknown,
     )
-
-    # Represents a relation to another event.
-    #
-    # [Matrix API](https://matrix.org/docs/spec/client_server/r0.6.1#forming-relationships-between-events)
-    struct RelatesTo
-      include JSON::Serializable
-
-      getter rel_type : String?
-      getter event_id : String?
-
-      def initialize(@rel_type, @event_id)
-      end
-    end
-
-    abstract class Content
-      include JSON::Serializable
-
-      # This implements MSC2674 (event relationships).
-      #
-      # [Matrix MSC](https://github.com/matrix-org/matrix-doc/pull/2674)
-      @[JSON::Field(key: "m.relates_to")]
-      getter relates_to : RelatesTo?
-    end
-
-    getter type : String
-
-    # Automatically defines a getter "content" if the subclass does not define one.
-    macro inherited
-      macro finished
-        \{% if !@type.abstract? && !@type.has_method?("content") %}
-          getter content : Content
-        \{% end %}
-      end
-    end
   end
 
   # Represents an unknown event.
   #
   # The content will alway be nil.
   class Unknown < Event
-    class Content < Event::Content
-    end
-
-    getter content : Content? = nil
+    getter type : String
   end
 end

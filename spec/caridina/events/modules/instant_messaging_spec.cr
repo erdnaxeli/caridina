@@ -132,4 +132,38 @@ describe Caridina::Events::Message do
     content.relates_to.try &.rel_type.should eq("m.unknown")
     content.relates_to.try &.event_id.should eq("$some_event_id")
   end
+
+  it "deserializes a redacted message" do
+    event = Caridina::Events::Event.from_json(%(
+      {
+        "type": "m.room.message",
+        "sender": "@example:example.org",
+        "content": {},
+        "origin_server_ts": 1612719080546,
+        "unsigned": {
+          "redacted_by": "$kACLXezKbvddldBNLWzLCSR5uwJDREXEpv_1f1QbZoE",
+          "redacted_because": {
+            "type": "m.room.redaction",
+            "sender": "@example:example.org",
+            "content": {},
+            "redacts": "$NWgVNhcFbMnV2JBEj6H0odGV74N4w4KwyfYn9cWY58Q",
+            "origin_server_ts": 1612719315996,
+            "unsigned": {
+              "age": 100221027
+            },
+            "event_id": "$kACLXezKbvddldBNLWzLCSR5uwJDREXEpv_1f1QbZoE"
+          },
+          "age": 100456477,
+          "transaction_id": "1612719080.4721277.1"
+        },
+        "event_id": "$NWgVNhcFbMnV2JBEj6H0odGV74N4w4KwyfYn9cWY58Q"
+      }
+    ))
+
+    event = event.as(Caridina::Events::RedactedMessage)
+    event.origin_server_ts.should eq(1612719080546)
+    event.room_id.should be_nil
+    event.sender.should eq("@example:example.org")
+    event.type.should eq("m.room.message")
+  end
 end

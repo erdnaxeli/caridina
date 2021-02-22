@@ -7,6 +7,11 @@ struct A
   getter a : String
 end
 
+struct Ab
+  include JSON::Serializable
+  getter ab : String
+end
+
 struct B
   include JSON::Serializable
   getter b : String
@@ -74,6 +79,16 @@ struct Fallback
   caridina_use_json_discriminator(
     {"type" => {"a" => A, "b" => B}},
     Unknown,
+  )
+end
+
+struct UnionDiscriminator
+  include JSON::Serializable
+
+  caridina_use_json_discriminator(
+    {
+      "type" => {"a" => [A, Ab]},
+    }
   )
 end
 
@@ -231,6 +246,18 @@ describe "caridina_use_json_discriminator" do
 }
      ))
     end
+  end
+
+  it "deserialize testing all type before failing" do
+    r = UnionDiscriminator.from_json(%(
+      {
+        "type": "a",
+        "ab": "ab"
+      }
+    ))
+
+    r = r.as(Ab)
+    r.ab.should eq("ab")
   end
 
   it "deserialize complex example with optional discriminator" do

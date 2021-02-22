@@ -4,6 +4,9 @@
 # fields. If no known discriminator value is found, it use the fallback type if any
 # or raise an error.
 #
+# Many types can be given for a discriminator, using an array. In this case the
+# first one deserializing without error is returned.
+#
 # The mapping should be order by priority, in case many discriminator values are
 # found, higher priority last.
 #
@@ -16,7 +19,7 @@
 #   caridina_use_json_discriminator(
 #     {
 #       ["type", "name"] => {"A": EventA, "B": EventB},
-#       "event_type"     => {"A": EventA, "C": EventC},
+#       "event_type"     => {"A": EventA, "C": EventC, "AC": [EventA, EventC]},
 #     }
 #   )
 #
@@ -43,6 +46,13 @@
 #     ...
 #   }
 # )) # => EventC(…)
+#
+# Event.from_json(%(
+#   {
+#     "event_type": "AC",
+#     ...
+#   }
+# )) # => EventA, or if it fails to deserialize it to EventA then EventC
 # ```
 #
 # You MUST use an array when using a nested field as a discriminator field. There
@@ -160,11 +170,26 @@ macro caridina_use_json_discriminator(mapping, fallback = nil)
       case field_name
       {% for field_key, field_mapping in mapping %}
         when {{field_key}}
+          key = {{field_key.stringify}}
           case discriminator_value
           {% for key, value in mapping[field_key] %}
             when {{key.id.stringify}}
-              # We found a valid discriminator value, we can stop here.
-              return {{value.id}}.from_json(json)
+              # We found a valid discriminator value.
+              {% if value.is_a?(ArrayLiteral) %}
+                {% for type_ in value %}
+                  begin
+                    return {{type_}}.from_json(json)
+                  rescue JSON::SerializableError
+                {% end %}
+
+                  raise JSON::SerializableError.new("No type can deserialize the given JSON. The key used was #{key}", to_s, nil, *location, nil)
+
+                {% for type_ in value %}
+                  end
+                {% end %}
+              {% else %}
+                return {{value.id}}.from_json(json)
+              {% end %}
           {% end %}
           end
       {% end %}
@@ -179,5 +204,159 @@ macro caridina_use_json_discriminator(mapping, fallback = nil)
     {% else %}
       raise ::JSON::SerializableError.new("Unknown discriminators #{discriminators.inspect}", to_s, nil, *location, nil)
     {% end %}
+  end
+end
+
+module Caridina::Events
+  macro make_relates_to
+    # Represents a relation to another event.
+    #
+    # [Matrix API](https://matrix.org/docs/spec/client_server/r0.6.1#forming-relationships-between-events)
+    struct RelatesTo
+      include JSON::Serializable
+
+      getter rel_type : String?
+      getter event_id : String?
+
+      def initialize(@rel_type, @event_id)
+      end
+    end
+
+    # This implements MSC2674 (event relationships).
+    #
+    # [Matrix MSC](https://github.com/matrix-org/matrix-doc/pull/2674)
+    @[JSON::Field(key: "m.relates_to")]
+    getter relates_to : RelatesTo?
+  end
+
+  macro make_unsigned_data
+    struct UnsignedData
+      include JSON::Serializable
+
+      getter age : Int64
+      getter transaction_id : String?
+    end
+  end
+
+  macro make_content(*fields)
+    class Content
+      include JSON::Serializable
+
+      Caridina::Events.make_relates_to
+
+      {% for field in fields %}
+        getter {{field.id}}
+      {% end %}
+    end
+
+    getter content : Content
+  end
+
+  macro make_redacted(name, type, fields, superclass)
+    {% redaction_allowed_fields = {
+         "event_id",
+         "type",
+         "room_id",
+         "sender",
+         "state_key",
+         "content",
+         "hashes",
+         "signatures",
+         "depth",
+         "prev_events",
+         "prev_state",
+         "auth_events",
+         "origin",
+         "origin_server_ts",
+         "membership",
+       } %}
+
+    class Redacted{{name.id}} < {{superclass}}
+      struct Content
+        include JSON::Serializable
+        include JSON::Serializable::Strict
+
+        {% if type == "m.room.member" %}
+          getter membership : Member::Membership
+        {% elsif type == "m.room.create" %}
+          getter creator : String
+        {% elsif type == "m.room.join_rules" %}
+          getter join_rule : JoinRules::JoinRule
+        {% elsif type == "m.room.power_levels" %}
+          getter ban = 50_u8
+          getter events = Hash(String, UInt8).new
+          getter events_default = 0_u8
+          getter kick = 50_u8
+          getter redact = 50_u8
+          getter states_default = 50_u8
+          getter users = Hash(String, UInt8).new
+          getter users_default = 0_i8
+        {% end %}
+      end
+
+
+      {% for field in fields %}
+        {% if field.is_a?(TypeDeclaration) %}
+          {% name = field.var %}
+        {% elsif field.is_a?(Assign) %}
+          {% name = field.target %}
+        {% else %}
+          {% raise "Unhandled field #{field}" %}
+        {% end %}
+
+        {% if redaction_allowed_fields.includes?(name.stringify) %}
+          getter {{field.id}}
+        {% end %}
+      {% end %}
+
+      getter event_id : String
+      getter origin_server_ts : UInt64
+      getter sender : String
+      getter type : String
+
+      # Can be null if we are in a context where the room's id is known (e.g. in a sync event).
+      property room_id : String?
+    end
+  end
+
+  macro make_room_event(name, type, *fields, superclass = nil)
+    @[Type({{type}})]
+    {% if !superclass %}
+      {% superclass = RoomEvent %}
+    {% end %}
+    class {{name.id}} < {{superclass}}
+      Caridina::Events.make_content({{*fields}})
+      Caridina::Events.make_unsigned_data
+
+      getter event_id : String
+      getter origin_server_ts : UInt64
+      getter sender : String
+      getter type : String
+      getter unsigned : UnsignedData?
+
+      # Can be null if we are in a context where the room's id is known (e.g. in a sync event).
+      property room_id : String?
+
+      {{yield}}
+    end
+
+    make_redacted({{name.id}}, {{type}}, {{fields}}, {{superclass}})
+  end
+
+  macro make_state_event(name, type, *fields)
+    Caridina::Events.make_room_event({{name}}, {{type}}, {{*fields}}, superclass: StateEvent) do
+      getter state_key : String
+
+      {{yield}}
+    end
+
+    class Stripped{{name}} < StrippedState
+      getter content : {{name.id}}::Content
+      getter sender : String
+      getter state_key : String
+      getter type : String
+
+      property room_id : String?
+    end
   end
 end

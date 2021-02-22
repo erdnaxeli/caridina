@@ -69,7 +69,7 @@ describe Caridina::Syncer do
 
     syncer = Caridina::Syncer.new
     syncer.on(
-      Caridina::Events::StrippedState,
+      Caridina::Events::StrippedMember,
       Caridina::Syncer::Source::InvitedRooms
     ) do |event, source|
       events << event
@@ -79,18 +79,11 @@ describe Caridina::Syncer do
     sync = Caridina::Responses::Sync.from_json(SYNC)
     syncer.process_response(sync)
 
-    calls.should eq(2)
+    calls.should eq(1)
 
-    event = events[0].as(Caridina::Events::StrippedState)
-    event.type.should eq("m.room.name")
-    event.content.class.should eq(Caridina::Events::Unknown::Content)
+    event = events[0].as(Caridina::Events::StrippedMember)
+    event.content.membership.should eq(Caridina::Events::Member::Membership::Invite)
 
-    event = events[1].as(Caridina::Events::StrippedState)
-    content = event.content.as(Caridina::Events::Member::Content)
-    content.membership.should eq(Caridina::Events::Member::Membership::Invite)
-
-    sources.should eq(
-      [Caridina::Syncer::Source::InvitedRooms, Caridina::Syncer::Source::InvitedRooms]
-    )
+    sources.should eq([Caridina::Syncer::Source::InvitedRooms])
   end
 end

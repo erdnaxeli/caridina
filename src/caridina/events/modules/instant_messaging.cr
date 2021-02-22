@@ -1,9 +1,10 @@
 module Caridina::Events
-  # Represents a m.room.message event.
-  #
-  # [Matrix API](https://matrix.org/docs/spec/client_server/r0.6.1#m-room-message)
-  @[Type("m.room.message")]
-  class Message < Caridina::Events::RoomEvent
+  make_room_event(
+    Message,
+    "m.room.message",
+    body : String,
+    msgtype : String,
+  ) do
     # Represents a m.room.message event's content.
     #
     # This event's content can have different fields according to its field
@@ -27,7 +28,7 @@ module Caridina::Events
     # ```
     #
     # [Matrix API](https://matrix.org/docs/spec/client_server/r0.6.1#m-room-message)
-    abstract class Content < Event::Content
+    class Content
       caridina_use_json_discriminator(
         {
           "msgtype" => {
@@ -39,10 +40,6 @@ module Caridina::Events
         },
         Unknown
       )
-
-      getter body : String
-      getter msgtype : String
-      getter
     end
 
     # Represents a m.room.message event's content of type m.text.
@@ -50,11 +47,8 @@ module Caridina::Events
       getter format : String?
       getter formatted_body : String?
 
-      def initialize(@body, @formatted_body)
+      def initialize(@body, @formatted_body = "org.matrix.custom.html")
         @msgtype = "m.text"
-        if !@formatted_body.nil?
-          @format = "org.matrix.custom.html"
-        end
       end
     end
 
