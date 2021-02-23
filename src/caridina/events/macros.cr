@@ -309,6 +309,7 @@ module Caridina::Events
         {% end %}
       {% end %}
 
+      getter content : Content
       getter event_id : String
       getter origin_server_ts : UInt64
       getter sender : String

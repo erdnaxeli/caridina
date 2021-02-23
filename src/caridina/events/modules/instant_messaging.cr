@@ -47,7 +47,7 @@ module Caridina::Events
       getter format : String?
       getter formatted_body : String?
 
-      def initialize(@body, @formatted_body = "org.matrix.custom.html")
+      def initialize(@body, @formatted_body, @format = "org.matrix.custom.html")
         @msgtype = "m.text"
       end
     end
