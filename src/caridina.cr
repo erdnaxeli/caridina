@@ -3,7 +3,7 @@
 require "./caridina/connection"
 
 module Caridina
-  VERSION = "0.10.1"
+  VERSION = "0.10.3"
 
   Log = ::Log.for(self)
 end
