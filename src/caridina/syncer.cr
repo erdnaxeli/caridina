@@ -40,7 +40,7 @@ class Caridina::Syncer
         end
       end
 
-      rooms.invite.each do |room_id, room|
+      rooms.invite.try &.each do |room_id, room|
         room.invite_state.events.each do |event|
           event.room_id = room_id
           dispatch(event, Source::InvitedRooms)
