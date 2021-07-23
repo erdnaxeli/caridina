@@ -8,7 +8,7 @@ module Caridina::Responses
       include JSON::Serializable
 
       getter join : Hash(String, JoinedRoom)
-      getter invite : Hash(String, InvitedRoom)
+      getter invite : Hash(String, InvitedRoom)?
     end
 
     struct JoinedRoom
