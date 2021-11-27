@@ -42,7 +42,7 @@ module Caridina::Events
     CanonicalAlias,
     "m.room.canonical_alias",
     alias : String?,
-    alt_aliases : Array(String),
+    alt_aliases : Array(String)?,
   )
 
   # Represents a m.room.create event.
