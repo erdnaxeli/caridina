@@ -226,9 +226,12 @@ module Caridina
       end
 
       headers = HTTP::Headers{"Authorization" => "Bearer #{@access_token}"}
-      if !body.nil?
+      headers["Content-Type"] = "application/json"
+      if body.nil?
+        # Synapse wants a valid JSON value, even if empty
+        body = "{}"
+      else
         body = body.to_json
-        headers["Content-Type"] = "application/json"
       end
 
       Log.debug { "#{method} #{url}" }
