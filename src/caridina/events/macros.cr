@@ -233,7 +233,7 @@ module Caridina::Events
     struct UnsignedData
       include JSON::Serializable
 
-      getter age : Int64
+      getter age : Int64?
       getter transaction_id : String?
     end
   end
